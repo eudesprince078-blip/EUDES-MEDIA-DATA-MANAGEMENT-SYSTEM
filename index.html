@@ -2,105 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YY PARTSHAN FUELS</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f1f5f9; padding: 20px; }
-        .app { max-width: 1300px; margin: 0 auto; background: white; border-radius: 20px; padding: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
-        .header { background: linear-gradient(135deg, #0b1120, #1a253b); color: white; padding: 16px 24px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
-        .header h1 { font-size: 22px; }
-        .header h1 .highlight { color: #f6ad55; }
-        .header .info { display: flex; align-items: center; gap: 15px; font-size: 14px; flex-wrap: wrap; }
-        .header .info .dot { width: 10px; height: 10px; background: #48bb78; border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-        .header .info .role-badge { background: #f6ad55; color: #1a202c; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; }
-        .header .info .status-badge { background: #2d3748; padding: 4px 14px; border-radius: 20px; font-size: 11px; color: #a0aec0; }
-        .header .info .status-badge.online { background: #48bb78; color: white; }
-        .stats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: #f7fafc; padding: 15px; border-radius: 10px; text-align: center; border-left: 4px solid #f6ad55; }
-        .stat-card .label { font-size: 11px; color: #718096; text-transform: uppercase; font-weight: 600; }
-        .stat-card .value { font-size: 20px; font-weight: 700; color: #2d3748; margin-top: 4px; }
-        .panel { background: #f7fafc; border-radius: 12px; padding: 18px 20px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
-        .panel h3 { font-size: 16px; color: #2d3748; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .panel h3 .badge { background: #e2e8f0; padding: 2px 12px; border-radius: 20px; font-size: 13px; }
-        .form-group { margin-bottom: 6px; }
-        .form-group label { display: block; font-weight: 600; font-size: 13px; color: #4a5568; margin-bottom: 3px; }
-        input, select { width: 100%; padding: 10px 14px; margin: 6px 0; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px; box-sizing: border-box; background: white; }
-        input:focus, select:focus { outline: none; border-color: #f6ad55; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.2s; margin-top: 6px; }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .btn-success { background: #28a745; color: white; }
-        .btn-primary { background: #f6ad55; color: #1a202c; }
-        .btn-danger { background: #dc3545; color: white; }
-        .btn-sm { padding: 6px 12px; font-size: 12px; width: auto; margin-top: 0; }
-        .btn-approve { background: #38a169; color: white; }
-        .btn-reject { background: #e53e3e; color: white; }
-        .btn-void { background: #e53e3e; color: white; }
-        .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; font-size: 14px; }
-        th { background: #f6ad55; color: #1a202c; padding: 12px; text-align: left; }
-        td { padding: 10px 12px; border-bottom: 1px solid #edf2f7; }
-        tr:hover { background: #f8fafc; }
-        .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-        .badge-permanent { background: #c6f6d5; color: #22543d; }
-        .badge-credit { background: #fefcbf; color: #744210; }
-        .badge-cash { background: #c6f6d5; color: #22543d; }
-        .badge-void { background: #fed7d7; color: #9b2c2c; }
-        .badge-pending { background: #fefcbf; color: #744210; }
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(4px); }
-        .modal-overlay.show { display: flex; }
-        .modal { background: white; border-radius: 16px; padding: 30px; max-width: 550px; width: 100%; max-height: 90vh; overflow-y: auto; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .modal .close { float: right; background: none; border: none; font-size: 28px; cursor: pointer; color: #a0aec0; line-height: 1; }
-        .modal .close:hover { color: #e53e3e; }
-        .modal h2 { margin-bottom: 20px; color: #2d3748; }
-        .otp-display { font-size: 48px; font-weight: 700; color: #f6ad55; letter-spacing: 8px; background: #f7fafc; padding: 15px; border-radius: 12px; font-family: monospace; border: 2px solid #e2e8f0; text-align: center; margin: 15px 0; }
-        .otp-timer { text-align: center; color: #718096; margin-top: 10px; }
-        .otp-timer span { color: #e53e3e; font-weight: 700; }
-        .toast { position: fixed; bottom: 30px; right: 30px; padding: 14px 24px; border-radius: 10px; background: #2d3748; color: white; font-weight: 500; display: none; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-width: 90%; }
-        .toast.show { display: block; animation: slideIn 0.3s ease; }
-        @keyframes slideIn { from { transform: translateX(80px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        .toast.success { background: #48bb78; }
-        .toast.error { background: #fc8181; }
-        .toast.info { background: #4299e1; }
-        .tab-bar { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-        .tab-bar .tab { padding: 10px 20px; background: #e2e8f0; border-radius: 8px 8px 0 0; cursor: pointer; font-weight: 600; transition: 0.2s; border: none; font-size: 14px; }
-        .tab-bar .tab.active { background: #f6ad55; color: #1a202c; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .customer-selected { background: #c6f6d5 !important; border: 2px solid #38a169 !important; border-radius: 8px; padding: 10px 14px; margin-bottom: 12px; }
-        .customer-selected .name { font-weight: 700; font-size: 16px; color: #22543d; }
-        .customer-selected .details { font-size: 13px; color: #276749; }
-        .credit-flow-box { background: #f0fdf4; border: 2px solid #86efac; border-radius: 10px; padding: 16px; margin: 12px 0; }
-        .credit-flow-box .shortfall { font-size: 18px; font-weight: 700; color: #e53e3e; margin: 6px 0; }
-        .credit-flow-box .actions { display: flex; gap: 10px; margin-top: 10px; }
-        .credit-flow-box .actions .btn { margin-top: 0; flex: 1; }
-        .price-display { display: inline-block; background: #e2e8f0; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; color: #2d3748; }
-        .footer { text-align: center; color: #f6ad55; margin-top: 30px; font-weight: bold; padding: 16px; border-top: 1px solid #e2e8f0; }
-        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); display: flex; justify-content: center; align-items: center; z-index: 9999; flex-direction: column; gap: 16px; }
-        .loading-overlay .spinner { width: 50px; height: 50px; border: 5px solid #e2e8f0; border-top-color: #f6ad55; border-radius: 50%; animation: spin 0.8s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loading-overlay p { color: #2d3748; font-weight: 600; }
-        .loading-overlay.hidden { display: none; }
-        .vehicle-tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; margin: 2px 4px 2px 0; background: #c6f6d5; color: #22543d; }
-        .edit-btn { background: #4299e1; color: white; border: none; padding: 2px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; margin-left: 6px; }
-        .edit-btn:hover { background: #3182ce; }
-        .receipt-box { background: #f7fafc; border-radius: 10px; padding: 20px; border: 1px dashed #cbd5e0; font-family: monospace; font-size: 13px; margin-top: 16px; }
-        .receipt-box .line { display: flex; justify-content: space-between; padding: 3px 0; }
-        .receipt-box .divider { border-top: 1px dashed #cbd5e0; margin: 8px 0; }
-        .whatsapp-link-box { background: #f0fdf4; padding: 16px; border-radius: 10px; border: 2px solid #86efac; margin: 12px 0; }
-        .whatsapp-link-box .wa-title { font-weight: 700; color: #166534; font-size: 15px; margin-bottom: 8px; }
-        .whatsapp-link-box .wa-link { background: white; padding: 8px 12px; border-radius: 6px; border: 1px solid #e2e8f0; word-break: break-all; font-size: 13px; color: #1e40af; margin-bottom: 8px; font-family: monospace; }
-        .whatsapp-link-box .wa-btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
-        .whatsapp-link-box .wa-btn-group .btn { flex: 1; min-width: 80px; margin-top: 0; padding: 8px 12px; font-size: 13px; }
-        .whatsapp-link-box .wa-message { background: #f7fafc; border-radius: 6px; padding: 10px; border: 1px solid #e2e8f0; font-family: monospace; font-size: 13px; white-space: pre-wrap; word-break: break-all; margin: 8px 0; max-height: 120px; overflow-y: auto; }
-        .qr-container { display: flex; flex-direction: column; align-items: center; margin-top: 10px; padding: 15px; background: white; border-radius: 10px; border: 2px dashed #e2e8f0; }
-        .qr-container canvas { border-radius: 8px; }
-        .qr-container .qr-label { margin-top: 8px; font-size: 12px; color: #4a5568; font-weight: 600; text-align: center; }
-        @media (max-width: 900px) { .stats { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 600px) { .stats { grid-template-columns: 1fr 1fr; } .header { flex-direction: column; align-items: flex-start; } .header .info { width: 100%; justify-content: space-between; } .form-row { grid-template-columns: 1fr; } .credit-flow-box .actions { flex-direction: column; } .modal { padding: 20px; } table { font-size: 12px; } th, td { padding: 6px 8px; } .otp-display { font-size: 32px; letter-spacing: 4px; } }
+        /* ===== FULL STYLES (same as before) ===== */
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f1f5f9;padding:20px}.app{max-width:1300px;margin:0 auto;background:white;border-radius:20px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,0.1)}.header{background:linear-gradient(135deg,#0b1120,#1a253b);color:white;padding:16px 24px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px}.header h1{font-size:22px}.header h1 .highlight{color:#f6ad55}.header .info{display:flex;align-items:center;gap:15px;font-size:14px;flex-wrap:wrap}.header .info .dot{width:10px;height:10px;background:#48bb78;border-radius:50%;display:inline-block;animation:pulse 2s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}.header .info .role-badge{background:#f6ad55;color:#1a202c;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700}.header .info .status-badge{background:#2d3748;padding:4px 14px;border-radius:20px;font-size:11px;color:#a0aec0}.header .info .status-badge.online{background:#48bb78;color:white}.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:15px;margin-bottom:20px}.stat-card{background:#f7fafc;padding:15px;border-radius:10px;text-align:center;border-left:4px solid #f6ad55}.stat-card .label{font-size:11px;color:#718096;text-transform:uppercase;font-weight:600}.stat-card .value{font-size:20px;font-weight:700;color:#2d3748;margin-top:4px}.panel{background:#f7fafc;border-radius:12px;padding:18px 20px;margin-bottom:20px;border:1px solid #e2e8f0}.panel h3{font-size:16px;color:#2d3748;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}.panel h3 .badge{background:#e2e8f0;padding:2px 12px;border-radius:20px;font-size:13px}.form-group{margin-bottom:6px}.form-group label{display:block;font-weight:600;font-size:13px;color:#4a5568;margin-bottom:3px}input,select{width:100%;padding:10px 14px;margin:6px 0;border:2px solid #e2e8f0;border-radius:8px;font-size:15px;background:white}input:focus,select:focus{outline:none;border-color:#f6ad55}.password-wrapper{position:relative;width:100%}.password-wrapper input{padding-right:40px}.password-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:18px;cursor:pointer;color:#718096;padding:4px}.password-toggle:hover{color:#2d3748}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btn{width:100%;padding:12px;border:none;border-radius:8px;font-weight:700;font-size:15px;cursor:pointer;transition:all 0.2s;margin-top:6px}.btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}.btn-success{background:#28a745;color:white}.btn-primary{background:#f6ad55;color:#1a202c}.btn-danger{background:#dc3545;color:white}.btn-sm{padding:6px 12px;font-size:12px;width:auto;margin-top:0}.btn-approve{background:#38a169;color:white}.btn-reject{background:#e53e3e;color:white}.btn-void{background:#e53e3e;color:white}.btn-download{background:#4299e1;color:white}.table-container{overflow-x:auto}table{width:100%;border-collapse:collapse;background:white;border-radius:8px;overflow:hidden;font-size:14px}th{background:#f6ad55;color:#1a202c;padding:12px;text-align:left}td{padding:10px 12px;border-bottom:1px solid #edf2f7}tr:hover{background:#f8fafc}.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600}.badge-credit{background:#fefcbf;color:#744210}.badge-cash{background:#c6f6d5;color:#22543d}.badge-void{background:#fed7d7;color:#9b2c2c}.badge-pending{background:#fefcbf;color:#744210}.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:999;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(4px)}.modal-overlay.show{display:flex}.modal{background:white;border-radius:16px;padding:30px;max-width:550px;width:100%;max-height:90vh;overflow-y:auto;animation:slideUp 0.3s ease}@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}.modal .close{float:right;background:none;border:none;font-size:28px;cursor:pointer;color:#a0aec0;line-height:1}.modal .close:hover{color:#e53e3e}.modal h2{margin-bottom:20px;color:#2d3748}.otp-display{font-size:48px;font-weight:700;color:#f6ad55;letter-spacing:8px;background:#f7fafc;padding:15px;border-radius:12px;font-family:monospace;border:2px solid #e2e8f0;text-align:center;margin:15px 0}.otp-timer{text-align:center;color:#718096;margin-top:10px}.otp-timer span{color:#e53e3e;font-weight:700}.toast{position:fixed;bottom:30px;right:30px;padding:14px 24px;border-radius:10px;background:#2d3748;color:white;font-weight:500;display:none;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,0.2);max-width:90%}.toast.show{display:block;animation:slideIn 0.3s ease}@keyframes slideIn{from{transform:translateX(80px);opacity:0}to{transform:translateX(0);opacity:1}}.toast.success{background:#48bb78}.toast.error{background:#fc8181}.toast.info{background:#4299e1}.tab-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}.tab-bar .tab{padding:10px 20px;background:#e2e8f0;border-radius:8px 8px 0 0;cursor:pointer;font-weight:600;transition:0.2s;border:none;font-size:14px}.tab-bar .tab.active{background:#f6ad55;color:#1a202c}.tab-content{display:none}.tab-content.active{display:block}.customer-selected{background:#c6f6d5 !important;border:2px solid #38a169 !important;border-radius:8px;padding:10px 14px;margin-bottom:12px}.customer-selected .name{font-weight:700;font-size:16px;color:#22543d}.customer-selected .details{font-size:13px;color:#276749}.credit-flow-box{background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:16px;margin:12px 0}.credit-flow-box .shortfall{font-size:18px;font-weight:700;color:#e53e3e;margin:6px 0}.credit-flow-box .actions{display:flex;gap:10px;margin-top:10px}.credit-flow-box .actions .btn{margin-top:0;flex:1}.price-display{display:inline-block;background:#e2e8f0;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;color:#2d3748}.footer{text-align:center;color:#f6ad55;margin-top:30px;font-weight:bold;padding:16px;border-top:1px solid #e2e8f0}.loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.95);display:flex;justify-content:center;align-items:center;z-index:9999;flex-direction:column;gap:16px}.loading-overlay .spinner{width:50px;height:50px;border:5px solid #e2e8f0;border-top-color:#f6ad55;border-radius:50%;animation:spin 0.8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.loading-overlay p{color:#2d3748;font-weight:600}.loading-overlay.hidden{display:none}.vehicle-tag{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600;margin:2px 4px 2px 0;background:#c6f6d5;color:#22543d}.edit-btn{background:#4299e1;color:white;border:none;padding:2px 10px;border-radius:12px;font-size:11px;cursor:pointer;margin-left:6px}.edit-btn:hover{background:#3182ce}.receipt-box{background:#f7fafc;border-radius:10px;padding:20px;border:1px dashed #cbd5e0;font-family:monospace;font-size:13px;margin-top:16px}.receipt-box .line{display:flex;justify-content:space-between;padding:3px 0}.receipt-box .divider{border-top:1px dashed #cbd5e0;margin:8px 0}.whatsapp-link-box{background:#f0fdf4;padding:16px;border-radius:10px;border:2px solid #86efac;margin:12px 0}.whatsapp-link-box .wa-title{font-weight:700;color:#166534;font-size:15px;margin-bottom:8px}.whatsapp-link-box .wa-link{background:white;padding:8px 12px;border-radius:6px;border:1px solid #e2e8f0;word-break:break-all;font-size:13px;color:#1e40af;margin-bottom:8px;font-family:monospace}.whatsapp-link-box .wa-btn-group{display:flex;gap:8px;flex-wrap:wrap}.whatsapp-link-box .wa-btn-group .btn{flex:1;min-width:80px;margin-top:0;padding:8px 12px;font-size:13px}.whatsapp-link-box .wa-message{background:#f7fafc;border-radius:6px;padding:10px;border:1px solid #e2e8f0;font-family:monospace;font-size:13px;white-space:pre-wrap;word-break:break-all;margin:8px 0;max-height:120px;overflow-y:auto}.vehicle-qr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-top:10px}.vehicle-qr-card{background:white;border-radius:10px;padding:12px;border:1px solid #e2e8f0;text-align:center}.vehicle-qr-card .plate{font-weight:700;font-size:16px;color:#2d3748}.vehicle-qr-card .customer{font-size:13px;color:#718096}.vehicle-qr-card .qr{margin:8px auto;display:inline-block}.vehicle-qr-card .btn-download{margin-top:6px;padding:4px 12px;font-size:12px;width:auto}.login-container{max-width:450px;margin:100px auto;background:white;padding:40px;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.1)}.login-container h1{font-size:24px;color:#f6ad55;text-align:center;margin-bottom:20px}.login-container .error{color:#fc8181;font-size:14px;text-align:center;margin-top:8px}.hidden{display:none}.system-qr-header{display:flex;align-items:center;gap:12px}.system-qr-header canvas{border:2px solid #e2e8f0;border-radius:8px;padding:4px;background:white;max-width:70px;height:auto}@media(max-width:600px){.vehicle-qr-grid{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.header{flex-direction:column;align-items:flex-start}.header .info{width:100%;justify-content:space-between}.form-row{grid-template-columns:1fr}.credit-flow-box .actions{flex-direction:column}.modal{padding:20px}table{font-size:12px}th,td{padding:6px 8px}.otp-display{font-size:32px;letter-spacing:4px}.system-qr-header canvas{max-width:50px}}
     </style>
 </head>
 <body>
@@ -114,21 +21,42 @@
 
     <div class="toast" id="toast"></div>
 
-    <div class="app" id="mainApp" style="display:none;">
+    <!-- LOGIN SCREEN (no password hints) -->
+    <div id="loginScreen" class="login-container">
+        <h1>⛽ YY PARTSHAN FUELS</h1>
+        <p style="text-align:center;color:#718096;margin-bottom:20px;">Login to continue</p>
+        <div class="form-group"><label>Username</label><input type="text" id="loginUsername" placeholder="Enter username" /></div>
+        <div class="form-group">
+            <label>Password</label>
+            <div class="password-wrapper">
+                <input type="password" id="loginPassword" placeholder="Enter password" />
+                <button type="button" class="password-toggle" onclick="togglePassword('loginPassword', this)">👁️</button>
+            </div>
+        </div>
+        <div id="loginError" class="error"></div>
+        <button class="btn btn-success" onclick="login()">🔐 Login</button>
+    </div>
 
+    <!-- MAIN APP -->
+    <div id="mainApp" class="app" style="display:none;">
         <div class="header">
             <h1>⛽ YY PARTSHAN <span class="highlight">FUELS</span> <span style="font-size:14px;font-weight:400;color:#a0aec0;">Nabyeewanga</span></h1>
             <div class="info">
                 <span><span class="dot"></span> <span id="statusText">Online</span></span>
                 <span id="clockDisplay">--:--</span>
                 <span id="txCounter">Sales: 0</span>
-                <span id="roleBadge" class="role-badge">👤 Admin</span>
+                <span id="roleBadge" class="role-badge">👤 <span id="userRoleDisplay">Admin</span></span>
                 <span id="syncStatus" class="status-badge online">☁️ Synced</span>
+                <div class="system-qr-header" id="headerQRContainer">
+                    <canvas id="headerQRCanvas" style="display:none;"></canvas>
+                    <button onclick="downloadSystemQR()" class="btn btn-sm btn-download" style="padding:2px 10px;font-size:11px;margin:0;">📱 QR</button>
+                </div>
                 <button onclick="syncAllData()" style="background:#f6ad55;color:#1a202c;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-weight:600;">🔄 Sync</button>
+                <button onclick="logout()" style="background:#e53e3e;color:white;border:none;padding:6px 16px;border-radius:6px;cursor:pointer;font-weight:600;">🚪 Logout</button>
             </div>
         </div>
 
-        <div class="stats">
+        <div class="stats" id="statsContainer">
             <div class="stat-card"><div class="label">💰 Cash Sales</div><div class="value" id="statCashSales">UGX 0</div></div>
             <div class="stat-card"><div class="label">📋 Credit Sales</div><div class="value" id="statCreditSales">UGX 0</div></div>
             <div class="stat-card"><div class="label">💳 Total Debt</div><div class="value" id="statTotalDebt">UGX 0</div></div>
@@ -137,25 +65,27 @@
             <div class="stat-card"><div class="label">⏳ Credit Requests</div><div class="value" id="statCreditRequests">0</div></div>
         </div>
 
-        <div class="tab-bar">
+        <div class="tab-bar" id="tabBar">
             <button class="tab active" onclick="switchTab('dashboard')">📊 Dashboard</button>
             <button class="tab" onclick="switchTab('register')">👤 Register</button>
-            <button class="tab" onclick="switchTab('deposit')">💰 Deposit</button>
-            <button class="tab" onclick="switchTab('staff')">👥 Staff</button>
+            <button class="tab admin-only" onclick="switchTab('deposit')">💰 Deposit</button>
+            <button class="tab admin-only" onclick="switchTab('staff')">👥 Staff</button>
             <button class="tab" onclick="switchTab('fuel')">⛽ Sell Fuel</button>
-            <button class="tab" onclick="switchTab('admin')">⚙️ Admin</button>
-            <button class="tab" onclick="switchTab('creditrequests')">📋 Credit</button>
-            <button class="tab" onclick="switchTab('prices')">💲 Prices</button>
+            <button class="tab admin-only" onclick="switchTab('admin')">⚙️ Admin</button>
+            <button class="tab admin-only" onclick="switchTab('creditrequests')">📋 Credit</button>
+            <button class="tab admin-only" onclick="switchTab('prices')">💲 Prices</button>
+            <button class="tab admin-only" onclick="switchTab('vehicleqr')">📱 Vehicle QR</button>
         </div>
 
         <div id="tabContent"></div>
 
         <div class="footer">
-            <p>⛽ YY PARTSHAN FUELS | Nabyeewanga, Masaka Road | 📞 +256 762 992 440</p>
+            <p>⛽ YY PARTSHAN FUELS | Nabyeewanga, Masaka Road</p>
         </div>
     </div>
 
-    <!-- MODALS -->
+    <!-- ===== MODALS (unchanged) ===== -->
+    <!-- OTP Modal -->
     <div class="modal-overlay" id="otpModal">
         <div class="modal">
             <button class="close" onclick="closeOTPModal()">✕</button>
@@ -163,12 +93,12 @@
             <div class="otp-display" id="otpCodeDisplay">------</div>
             <div class="otp-timer">⏰ Expires in <span id="otpTimer">5:00</span></div>
             <div class="whatsapp-link-box">
-                <div class="wa-title"><i class="fab fa-whatsapp" style="color:#25d366;"></i> Send OTP via WhatsApp</div>
+                <div class="wa-title">📱 Send OTP via WhatsApp</div>
                 <div class="wa-link" id="waLinkDisplay">https://wa.me/...</div>
                 <div class="wa-btn-group">
-                    <button class="btn btn-sm btn-success" onclick="openWhatsAppLink()" style="background:#25d366;color:white;"><i class="fab fa-whatsapp"></i> Open</button>
-                    <button class="btn btn-sm btn-primary" onclick="copyWhatsAppLink()"><i class="fas fa-copy"></i> Copy Link</button>
-                    <button class="btn btn-sm btn-primary" onclick="copyWhatsAppMessage()"><i class="fas fa-copy"></i> Copy Message</button>
+                    <button class="btn btn-sm btn-success" onclick="openWhatsAppLink()" style="background:#25d366;color:white;">Open</button>
+                    <button class="btn btn-sm btn-primary" onclick="copyWhatsAppLink()">Copy Link</button>
+                    <button class="btn btn-sm btn-primary" onclick="copyWhatsAppMessage()">Copy Message</button>
                 </div>
                 <div class="wa-message" id="waMessagePreview">Message will appear here.</div>
             </div>
@@ -179,25 +109,33 @@
         </div>
     </div>
 
+    <!-- PIN Modal -->
+    <div class="modal-overlay" id="pinModal">
+        <div class="modal">
+            <button class="close" onclick="closePINModal()">✕</button>
+            <h2>🔑 Enter Customer PIN</h2>
+            <p>Please enter the customer's PIN to proceed.</p>
+            <div class="form-group"><label>PIN (4-6 digits)</label><input type="password" id="pinInput" placeholder="Enter PIN" maxlength="6" style="text-align:center;font-size:24px;letter-spacing:4px;"></div>
+            <div id="pinMsg" class="msg"></div>
+            <button class="btn btn-success" onclick="verifyPIN()">✅ Verify PIN</button>
+            <button class="btn btn-secondary" style="margin-top:8px;background:#e2e8f0;color:#333;" onclick="closePINModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Deposit for Fuel Modal -->
     <div class="modal-overlay" id="depositForFuelModal">
         <div class="modal">
             <button class="close" onclick="closeModal('depositForFuelModal')">✕</button>
             <h2>💰 Top Up for Fuel</h2>
             <p>Customer needs <strong id="topupNeeded">UGX 0</strong> to complete this purchase.</p>
             <div class="form-group"><label>Amount to Deposit (UGX)</label><input type="number" id="topupAmount" placeholder="Enter amount"></div>
-            <div class="form-group"><label>Payment Method</label>
-                <select id="topupMethod">
-                    <option value="cash">💵 Cash</option>
-                    <option value="mobile">📱 Mobile Money</option>
-                    <option value="bank">🏦 Bank Transfer</option>
-                    <option value="card">💳 Card</option>
-                </select>
-            </div>
+            <div class="form-group"><label>Payment Method</label><select id="topupMethod"><option value="cash">💵 Cash</option><option value="mobile">📱 Mobile Money</option><option value="bank">🏦 Bank Transfer</option><option value="card">💳 Card</option></select></div>
             <button class="btn btn-success" onclick="completeTopup()">✅ Complete Top Up</button>
             <button class="btn btn-secondary" style="margin-top:8px;background:#e2e8f0;color:#333;" onclick="closeModal('depositForFuelModal')">Cancel</button>
         </div>
     </div>
 
+    <!-- Void Modal -->
     <div class="modal-overlay" id="voidModal">
         <div class="modal">
             <button class="close" onclick="closeModal('voidModal')">✕</button>
@@ -215,6 +153,7 @@
         </div>
     </div>
 
+    <!-- Receipt Modal -->
     <div class="modal-overlay" id="receiptModal">
         <div class="modal" style="max-width:420px;">
             <button class="close" onclick="closeReceiptModal()">✕</button>
@@ -229,80 +168,72 @@
         // ============================================================
         // SUPABASE CONFIG
         // ============================================================
-        const SUPABASE_URL = 'https://nkdbcwzzdijpgstewnft.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_MDDkqeCp7VnpsrCLVFI3mQ_mpd8iLx8';
+        const SUPABASE_URL = 'https://wabeempxckdtjvrkzhpv.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_n0uAm0Gcq7qR2dJM4jMZGQ_wiV__Cfp';
+
+        // ============================================================
+        // TOGGLE PASSWORD VISIBILITY
+        // ============================================================
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                btn.textContent = '👁️';
+            }
+        }
 
         // ============================================================
         // STATE
         // ============================================================
-        let customers = [];
-        let staff = [];
-        let transactions = [];
-        let pending = [];
-        let creditRequests = [];
+        let customers = [],
+            staff = [],
+            transactions = [],
+            pending = [],
+            creditRequests = [];
         let fuelPrices = { petrol: 5800, diesel: 5200, kerosene: 4800, discount: 30 };
         let priceHistory = [];
-        let totalDeposits = 0;
-        let transactionCounter = 1;
-        let creditRequestCounter = 1;
-        let useSupabase = true;
-        let supabaseConnected = false;
-        let isLoading = false;
+        let transactionCounter = 1,
+            creditRequestCounter = 1;
+        let useSupabase = true,
+            supabaseConnected = false,
+            isLoading = false;
+        let currentUser = null;
 
-        // OTP state
-        let currentOTP = null;
-        let currentTransaction = null;
-        let otpInterval = null;
-        let otpAttempts = 0;
+        let currentOTP = null,
+            currentTransaction = null,
+            otpInterval = null,
+            otpAttempts = 0;
         let fuelTxState = { customer: null, vehicle: null, fuel: null, litres: 0, amount: 0, pump: null, attendant: null, shift: null, shortfall: 0, balance: 0 };
-        let pendingVoidTransactionId = null;
+        let pinVerified = false;
 
-        // ============================================================
-        // SUPABASE API (Direct REST)
-        // ============================================================
-        async function supabaseQuery(table, method = 'GET', data = null, id = null) {
-            let url = `${SUPABASE_URL}/rest/v1/${table}`;
-            const headers = {
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                'Content-Type': 'application/json'
-            };
-
-            if (id) url += `?id=eq.${id}`;
-
-            const options = { method, headers };
-            if (data && (method === 'POST' || method === 'PATCH')) {
-                options.body = JSON.stringify(data);
-            }
-
-            const response = await fetch(url, options);
-            if (!response.ok) {
-                const text = await response.text();
-                throw new Error(`HTTP ${response.status}: ${text}`);
-            }
-            const text = await response.text();
-            return text ? JSON.parse(text) : [];
-        }
+        const USERS = {
+            admin: { password: 'admin123', role: 'admin' },
+            attendant: { password: 'attend123', role: 'attendant' }
+        };
 
         // ============================================================
         // HELPERS
         // ============================================================
         function formatCurrency(amount) { return 'UGX ' + Number(amount).toLocaleString(); }
+
         function generateOTP() { return String(Math.floor(100000 + Math.random() * 900000)); }
+
         function getFuelName(type) { return { petrol: 'Petrol', diesel: 'Diesel', kerosene: 'Kerosene' } [type] || type; }
+
         function findCustomerByPhone(phone) { return customers.find(c => c.phone === phone); }
 
-        function getCustomerDebt(customer) {
-            let debt = 0;
-            for (let t of transactions) {
-                if (t.customer === customer.name && t.transaction_type === 'credit' && t.status !== 'void') {
-                    debt += t.amount;
-                }
-            }
-            return debt;
-        }
+        function findCustomerByAccount(acc) { return customers.find(c => c.accountNumber === acc); }
+
+        function generateAccountNumber() { let num = 100000; while (customers.some(c => c.accountNumber === String(num))) { num++; if (num > 999999) num = 100000; } return String(num); }
+
+        function getCustomerDebt(customer) { let debt = 0; for (let t of transactions) { if (t.customer === customer.name && t.transaction_type === 'credit' && t.status !== 'void') debt += t.amount; } return debt; }
 
         function getTotalDebt() { let total = 0; for (let c of customers) total += getCustomerDebt(c); return total; }
+
         function getPendingCreditRequests() { return creditRequests.filter(r => r.status === 'pending'); }
 
         function saveAll() {
@@ -314,7 +245,7 @@
                 localStorage.setItem('yy_creditRequests', JSON.stringify(creditRequests));
                 localStorage.setItem('yy_fuelPrices', JSON.stringify(fuelPrices));
                 localStorage.setItem('yy_priceHistory', JSON.stringify(priceHistory));
-            } catch(e) {}
+            } catch (e) {}
         }
 
         function loadLocalData() {
@@ -331,7 +262,24 @@
                 if (fp) fuelPrices = JSON.parse(fp);
                 const ph = localStorage.getItem('yy_priceHistory');
                 if (ph) priceHistory = JSON.parse(ph);
-            } catch(e) {}
+            } catch (e) {}
+        }
+
+        // ============================================================
+        // SUPABASE API
+        // ============================================================
+        async function supabaseQuery(table, method = 'GET', data = null, id = null) {
+            let url = `${SUPABASE_URL}/rest/v1/${table}`;
+            const headers = { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type': 'application/json' };
+            if (id) url += `?id=eq.${id}`;
+            const options = { method, headers };
+            if (data && (method === 'POST' || method === 'PATCH')) options.body = JSON.stringify(data);
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) { const text = await response.text(); console.warn(`HTTP ${response.status}: ${text}`); return null; }
+                const text = await response.text();
+                return text ? JSON.parse(text) : [];
+            } catch (error) { console.warn('Supabase query failed:', error); return null; }
         }
 
         // ============================================================
@@ -345,8 +293,11 @@
             toast._timeout = setTimeout(() => toast.className = 'toast', 4000);
         }
 
-        function openModal(id) { document.getElementById(id).classList.add('show'); document.body.style.overflow = 'hidden'; }
-        function closeModal(id) { document.getElementById(id).classList.remove('show'); document.body.style.overflow = ''; }
+        function openModal(id) { document.getElementById(id).classList.add('show');
+            document.body.style.overflow = 'hidden'; }
+
+        function closeModal(id) { document.getElementById(id).classList.remove('show');
+            document.body.style.overflow = ''; }
 
         // ============================================================
         // CLOCK
@@ -359,18 +310,76 @@
         updateClock();
 
         // ============================================================
+        // LOGIN / LOGOUT
+        // ============================================================
+        function login() {
+            const username = document.getElementById('loginUsername').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value;
+            const errorEl = document.getElementById('loginError');
+            errorEl.textContent = '';
+            if (!username || !password) { errorEl.textContent = '❌ Please enter username and password'; return; }
+            const user = USERS[username];
+            if (!user || user.password !== password) { errorEl.textContent = '❌ Invalid username or password'; return; }
+            currentUser = { username, role: user.role };
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            document.getElementById('userRoleDisplay').textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
+            applyRoleRestrictions();
+            document.getElementById('loadingOverlay').classList.add('hidden');
+            render();
+            populateAttendantDropdown();
+            loadFuelPrices();
+            handleURLParams();
+            loadData();
+            showToast('✅ Logged in as ' + user.role, 'success');
+            setTimeout(() => generateSystemQR(), 500);
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginError').textContent = '';
+            showToast('🔒 Logged out', 'info');
+        }
+
+        function applyRoleRestrictions() {
+            const isAdmin = currentUser && currentUser.role === 'admin';
+            document.querySelectorAll('.admin-only').forEach(el => { el.style.display = isAdmin ? 'inline-block' : 'none'; });
+            const statsDiv = document.getElementById('statsContainer');
+            if (statsDiv) statsDiv.style.display = isAdmin ? 'grid' : 'none';
+            const txCounter = document.getElementById('txCounter');
+            if (txCounter) txCounter.style.display = isAdmin ? 'inline' : 'none';
+            const dashTab = document.querySelector('.tab[onclick="switchTab(\'dashboard\')"]');
+            if (dashTab) dashTab.style.display = isAdmin ? 'inline-block' : 'none';
+            if (!isAdmin) {
+                const activeTab = document.querySelector('.tab-content.active');
+                if (activeTab && activeTab.id === 'tab-dashboard') { switchTab('fuel'); }
+            }
+        }
+
+        // ============================================================
         // TABS
         // ============================================================
         function switchTab(tab) {
+            if (currentUser && currentUser.role === 'attendant') {
+                const restricted = ['dashboard', 'deposit', 'staff', 'admin', 'creditrequests', 'prices', 'vehicleqr'];
+                if (restricted.includes(tab)) { showToast('⛔ Attendants cannot access this section', 'error'); return; }
+            }
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelector(`.tab[onclick="switchTab('${tab}')"]`).classList.add('active');
-            document.getElementById('tab-' + tab).classList.add('active');
+            const tabBtn = document.querySelector(`.tab[onclick="switchTab('${tab}')"]`);
+            if (tabBtn) tabBtn.classList.add('active');
+            const tabContent = document.getElementById('tab-' + tab);
+            if (tabContent) tabContent.classList.add('active');
             render();
-            if (tab === 'fuel') { populateAttendantDropdown(); calculateFuelPrice(); }
+            if (tab === 'fuel') { populateAttendantDropdown();
+                calculateFuelPrice(); }
             if (tab === 'staff') renderStaffList();
             if (tab === 'creditrequests') renderCreditRequests();
             if (tab === 'prices') loadFuelPrices();
+            if (tab === 'vehicleqr') renderVehicleQRs();
         }
 
         // ============================================================
@@ -379,30 +388,32 @@
         async function loadData() {
             if (isLoading) return;
             isLoading = true;
-            document.getElementById('loadingStatus').textContent = 'Loading data...';
-
             try {
-                // Try Supabase
                 const [custData, staffData, txData, creditData, priceData] = await Promise.all([
-                    supabaseQuery('customers?select=*&order=created_at.desc'),
-                    supabaseQuery('staff?select=*&order=created_at.desc'),
-                    supabaseQuery('transactions?select=*&order=created_at.desc&limit=500'),
-                    supabaseQuery('credit_requests?select=*&order=created_at.desc'),
-                    supabaseQuery('fuel_prices?select=*&order=created_at.desc&limit=1')
+                    supabaseQuery('customers'),
+                    supabaseQuery('staff'),
+                    supabaseQuery('transactions'),
+                    supabaseQuery('credit_requests'),
+                    supabaseQuery('fuel_prices')
                 ]);
 
-                customers = custData || [];
-                staff = staffData || [];
-                transactions = txData || [];
-                creditRequests = creditData || [];
-                if (priceData && priceData.length > 0) {
-                    const p = priceData[0];
-                    fuelPrices = { petrol: p.petrol || 5800, diesel: p.diesel || 5200, kerosene: p.kerosene || 4800, discount: p.discount || 30 };
+                if (custData) {
+                    customers = custData || [];
+                    staff = staffData || [];
+                    transactions = txData || [];
+                    creditRequests = creditData || [];
+                    if (priceData && priceData.length > 0) {
+                        const p = priceData[0];
+                        fuelPrices = { petrol: p.petrol || 5800, diesel: p.diesel || 5200, kerosene: p.kerosene || 4800, discount: p.discount || 30 };
+                    }
+                    supabaseConnected = true;
+                    useSupabase = true;
+                    document.getElementById('syncStatus').textContent = '☁️ Synced';
+                    document.getElementById('syncStatus').className = 'status-badge online';
+                    showToast('✅ Connected! Loaded ' + customers.length + ' customers.', 'success');
+                } else {
+                    throw new Error('No data from Supabase');
                 }
-                supabaseConnected = true;
-                useSupabase = true;
-                document.getElementById('syncStatus').textContent = '☁️ Synced';
-                document.getElementById('syncStatus').className = 'status-badge online';
 
             } catch (e) {
                 console.warn('Supabase load failed:', e);
@@ -415,130 +426,159 @@
             }
 
             isLoading = false;
-            showApp();
-        }
-
-        function showApp() {
-            document.getElementById('loadingOverlay').classList.add('hidden');
-            document.getElementById('mainApp').style.display = 'block';
             render();
             populateAttendantDropdown();
             loadFuelPrices();
+            handleURLParams();
         }
 
         // ============================================================
-        // SYNC TO SUPABASE
+        // QR GENERATION
         // ============================================================
-        async function syncAllData() {
-            if (!useSupabase) {
-                showToast('❌ Supabase not available', 'error');
+        function generateSystemQR() {
+            const url = window.location.href.split('?')[0];
+            const headerCanvas = document.getElementById('headerQRCanvas');
+            if (headerCanvas && typeof QRCode !== 'undefined' && currentUser) {
+                try {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.style.display = 'none';
+                    document.body.appendChild(tempDiv);
+                    new QRCode(tempDiv, {
+                        text: url,
+                        width: 80,
+                        height: 80,
+                        colorDark: "#1a202c",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                    const canvas = tempDiv.querySelector('canvas');
+                    if (canvas) {
+                        const ctx = headerCanvas.getContext('2d');
+                        headerCanvas.width = 80;
+                        headerCanvas.height = 80;
+                        ctx.drawImage(canvas, 0, 0, 80, 80);
+                        headerCanvas.style.display = 'block';
+                    }
+                    document.body.removeChild(tempDiv);
+                } catch (e) { console.warn('Header QR error:', e); }
+            }
+        }
+
+        function downloadSystemQR() {
+            let canvas = document.getElementById('headerQRCanvas');
+            if (!canvas || !canvas.style.display || canvas.style.display === 'none') {
+                showToast('QR not generated yet.', 'error');
                 return;
             }
+            const link = document.createElement('a');
+            link.download = 'YY_System_QR.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('✅ System QR downloaded', 'success');
+        }
+
+        // ============================================================
+        // SYNC
+        // ============================================================
+        async function syncAllData() {
+            if (!useSupabase) { showToast('❌ Supabase not available', 'error'); return; }
             showToast('⏳ Syncing...', 'info');
             try {
-                for (const c of customers) {
-                    await supabaseQuery('customers', 'POST', c);
-                }
-                for (const s of staff) {
-                    await supabaseQuery('staff', 'POST', s);
-                }
-                for (const t of transactions) {
-                    if (t.id) await supabaseQuery('transactions', 'POST', t);
-                }
-                for (const cr of creditRequests) {
-                    await supabaseQuery('credit_requests', 'POST', cr);
-                }
+                for (const c of customers) await supabaseQuery('customers', 'POST', c);
+                for (const s of staff) await supabaseQuery('staff', 'POST', s);
+                for (const t of transactions) { if (t.id) await supabaseQuery('transactions', 'POST', t); }
+                for (const cr of creditRequests) await supabaseQuery('credit_requests', 'POST', cr);
                 showToast('✅ Synced to Supabase!', 'success');
                 document.getElementById('syncStatus').textContent = '☁️ Synced';
                 document.getElementById('syncStatus').className = 'status-badge online';
-            } catch(e) {
-                showToast('❌ Sync failed: ' + e.message, 'error');
-            }
+            } catch (e) { showToast('❌ Sync failed: ' + e.message, 'error'); }
         }
 
         // ============================================================
         // RENDER
         // ============================================================
         function render() {
-            let cashSales = 0, creditSales = 0, totalLitres = 0;
-            transactions.forEach(t => {
-                if (t.status === 'void') return;
-                if (t.transaction_type === 'credit') creditSales += t.amount || 0;
-                else cashSales += t.amount || 0;
-                totalLitres += (t.litres || 0);
-            });
-            const totalDebt = getTotalDebt();
-            const pendingCredits = getPendingCreditRequests();
+            const isAdmin = currentUser && currentUser.role === 'admin';
+            if (isAdmin) {
+                let cashSales = 0,
+                    creditSales = 0,
+                    totalLitres = 0;
+                transactions.forEach(t => {
+                    if (t.status === 'void') return;
+                    if (t.transaction_type === 'credit') creditSales += t.amount || 0;
+                    else cashSales += t.amount || 0;
+                    totalLitres += (t.litres || 0);
+                });
+                const totalDebt = getTotalDebt();
+                const pendingCredits = getPendingCreditRequests();
 
-            document.getElementById('statCashSales').textContent = formatCurrency(cashSales);
-            document.getElementById('statCreditSales').textContent = formatCurrency(creditSales);
-            document.getElementById('statTotalDebt').textContent = formatCurrency(totalDebt);
-            document.getElementById('statCustomers').textContent = customers.length;
-            document.getElementById('statFuel').textContent = totalLitres.toFixed(0) + ' Ltrs';
-            document.getElementById('statCreditRequests').textContent = pendingCredits.length;
-            document.getElementById('txCounter').textContent = 'Sales: ' + transactions.filter(t => t.status !== 'void').length;
+                document.getElementById('statCashSales').textContent = formatCurrency(cashSales);
+                document.getElementById('statCreditSales').textContent = formatCurrency(creditSales);
+                document.getElementById('statTotalDebt').textContent = formatCurrency(totalDebt);
+                document.getElementById('statCustomers').textContent = customers.length;
+                document.getElementById('statFuel').textContent = totalLitres.toFixed(0) + ' Ltrs';
+                document.getElementById('statCreditRequests').textContent = pendingCredits.length;
+                document.getElementById('txCounter').textContent = 'Sales: ' + transactions.filter(t => t.status !== 'void').length;
 
-            // Transactions
-            const tList = document.getElementById('transactionList');
-            if (tList) {
-                tList.innerHTML = transactions.length === 0 ? 
-                    '<tr><td colspan="10" style="text-align:center;color:#a0aec0;">No transactions</td></tr>' :
-                    transactions.slice(-15).reverse().map(t => `
-                        <tr>
-                            <td>${t.time || '--:--'}</td>
-                            <td>${t.attendant || 'N/A'}</td>
-                            <td>${t.shift || 'N/A'}</td>
-                            <td><strong>${t.customer}</strong></td>
-                            <td>${t.vehicle}</td>
-                            <td>${getFuelName(t.type)}</td>
-                            <td>${t.litres || '?'}</td>
-                            <td>${formatCurrency(t.amount)}</td>
-                            <td><span class="badge ${t.transaction_type === 'credit' ? 'badge-credit' : 'badge-cash'}">${t.transaction_type || 'cash'}</span></td>
-                            <td>${t.status === 'void' ? '<span class="badge badge-void">Void</span>' : '✅ Active'}</td>
-                        </tr>
-                    `).join('');
+                const tList = document.getElementById('transactionList');
+                if (tList) {
+                    tList.innerHTML = transactions.length === 0 ? '<tr><td colspan="10" style="text-align:center;color:#a0aec0;">No transactions</td></tr>' :
+                        transactions.slice(-15).reverse().map(t => `
+                            <tr>
+                                <td>${t.time || '--:--'}</td>
+                                <td>${t.attendant || 'N/A'}</td>
+                                <td>${t.shift || 'N/A'}</td>
+                                <td><strong>${t.customer}</strong></td>
+                                <td>${t.vehicle}</td>
+                                <td>${getFuelName(t.type)}</td>
+                                <td>${t.litres || '?'}</td>
+                                <td>${formatCurrency(t.amount)}</td>
+                                <td><span class="badge ${t.transaction_type === 'credit' ? 'badge-credit' : 'badge-cash'}">${t.transaction_type || 'cash'}</span></td>
+                                <td>${t.status === 'void' ? '<span class="badge badge-void">Void</span>' : '✅ Active'}</td>
+                            </tr>
+                        `).join('');
+                }
+
+                const cList = document.getElementById('customerList');
+                if (cList) {
+                    cList.innerHTML = customers.length === 0 ? '<tr><td colspan="6" style="text-align:center;color:#a0aec0;">No customers</td></tr>' :
+                        customers.map(c => `
+                            <tr>
+                                <td><strong>${c.name}</strong></td>
+                                <td>${c.accountNumber || 'N/A'}</td>
+                                <td>${c.phone}</td>
+                                <td>${c.vehicles?.join(', ') || 'None'}</td>
+                                <td style="color:#48bb78;">${formatCurrency(c.balance || 0)}</td>
+                                <td style="color:${getCustomerDebt(c) > 0 ? '#ed8936' : '#48bb78'};">${getCustomerDebt(c) > 0 ? formatCurrency(getCustomerDebt(c)) : 'UGX 0'}</td>
+                            </tr>
+                        `).join('');
+                }
+                document.getElementById('custCount').textContent = customers.length;
+                document.getElementById('transCount').textContent = transactions.filter(t => t.status !== 'void').length;
+
+                const pList = document.getElementById('pendingList');
+                if (pList) {
+                    pList.innerHTML = pending.length === 0 ? '<li style="color:#a0aec0;padding:10px;">No pending transactions</li>' :
+                        pending.map(p => `
+                            <li style="padding:6px 0;border-bottom:1px solid #edf2f7;display:flex;justify-content:space-between;align-items:center;">
+                                <span><strong>${p.customer}</strong> · ${formatCurrency(p.amount)} · 🚗 ${p.vehicle}</span>
+                                <span class="badge badge-pending">⏳ OTP Pending</span>
+                            </li>
+                        `).join('');
+                }
+                document.getElementById('pendingCount').textContent = pending.length;
+
+                renderAdminList();
+                renderStaffList();
+                renderCreditRequests();
             }
-
-            // Customers
-            const cList = document.getElementById('customerList');
-            if (cList) {
-                cList.innerHTML = customers.length === 0 ?
-                    '<tr><td colspan="5" style="text-align:center;color:#a0aec0;">No customers</td></tr>' :
-                    customers.map(c => `
-                        <tr>
-                            <td><strong>${c.name}</strong></td>
-                            <td>${c.phone}</td>
-                            <td>${c.vehicles?.join(', ') || 'None'}</td>
-                            <td style="color:#48bb78;">${formatCurrency(c.balance || 0)}</td>
-                            <td style="color:${getCustomerDebt(c) > 0 ? '#ed8936' : '#48bb78'};">${getCustomerDebt(c) > 0 ? formatCurrency(getCustomerDebt(c)) : 'UGX 0'}</td>
-                        </tr>
-                    `).join('');
-            }
-            document.getElementById('custCount').textContent = customers.length;
-            document.getElementById('transCount').textContent = transactions.filter(t => t.status !== 'void').length;
-
-            // Pending
-            const pList = document.getElementById('pendingList');
-            if (pList) {
-                pList.innerHTML = pending.length === 0 ? 
-                    '<li style="color:#a0aec0;padding:10px;">No pending transactions</li>' :
-                    pending.map(p => `
-                        <li style="padding:6px 0;border-bottom:1px solid #edf2f7;display:flex;justify-content:space-between;align-items:center;">
-                            <span><strong>${p.customer}</strong> · ${formatCurrency(p.amount)} · 🚗 ${p.vehicle}</span>
-                            <span class="badge badge-pending">⏳ OTP Pending</span>
-                        </li>
-                    `).join('');
-            }
-            document.getElementById('pendingCount').textContent = pending.length;
-
-            renderAdminList();
-            renderStaffList();
-            renderCreditRequests();
             populateAttendantDropdown();
+            const activeTab = document.querySelector('.tab-content.active');
+            if (activeTab && activeTab.id === 'tab-vehicleqr') renderVehicleQRs();
         }
 
         // ============================================================
-        // REGISTER CUSTOMER
+        // REGISTER CUSTOMER (with password toggle)
         // ============================================================
         async function registerCustomer() {
             const name = document.getElementById('regName').value.trim();
@@ -546,12 +586,16 @@
             const password = document.getElementById('regPassword').value;
             const phone = document.getElementById('regPhone').value.trim();
             const vehicle = document.getElementById('regVehicle').value.trim().toUpperCase();
+            const pin = document.getElementById('regPIN').value.trim();
 
-            if (!name || !username || !password || !phone || !vehicle) {
+            if (!name || !username || !password || !phone || !vehicle || !pin) {
                 showToast('❌ Please fill all fields', 'error');
                 return;
             }
-
+            if (pin.length < 4 || pin.length > 6 || !/^\d+$/.test(pin)) {
+                showToast('❌ PIN must be 4-6 digits', 'error');
+                return;
+            }
             if (customers.some(c => c.username === username)) {
                 showToast('❌ Username taken!', 'error');
                 return;
@@ -561,45 +605,57 @@
                 return;
             }
 
+            const accountNumber = generateAccountNumber();
             const newCustomer = {
                 id: 'AC-' + String(Date.now()).slice(-4),
-                name, username, password, phone,
+                accountNumber,
+                name,
+                username,
+                password,
+                phone,
                 vehicles: [vehicle],
                 balance: 0,
+                pin: pin,
                 created_at: new Date().toISOString()
             };
 
             try {
                 if (useSupabase) {
-                    await supabaseQuery('customers', 'POST', newCustomer);
+                    const result = await supabaseQuery('customers', 'POST', newCustomer);
+                    if (!result) throw new Error('Supabase insert failed');
                 }
                 customers.unshift(newCustomer);
                 saveAll();
                 render();
-                showToast(`✅ ${name} registered!`, 'success');
+                showToast(`✅ ${name} registered! Account: ${accountNumber}`, 'success');
                 document.getElementById('regName').value = '';
                 document.getElementById('regUsername').value = '';
                 document.getElementById('regPassword').value = '';
                 document.getElementById('regPhone').value = '';
                 document.getElementById('regVehicle').value = '';
-            } catch(e) {
+                document.getElementById('regPIN').value = '';
+            } catch (e) {
+                console.error('Registration error:', e);
                 showToast('❌ Registration failed: ' + e.message, 'error');
             }
         }
 
         // ============================================================
-        // DEPOSIT
+        // DEPOSIT (Admin only)
         // ============================================================
         async function processDeposit() {
-            const phone = document.getElementById('depPhone').value.trim();
-            const amount = parseInt(document.getElementById('depAmount').value);
-
-            if (!phone || !amount || amount < 1) {
-                showToast('❌ Enter valid phone and amount', 'error');
+            if (currentUser && currentUser.role !== 'admin') {
+                showToast('⛔ Only admin can deposit', 'error');
                 return;
             }
-
-            const customer = findCustomerByPhone(phone);
+            const input = document.getElementById('depPhone').value.trim();
+            const amount = parseInt(document.getElementById('depAmount').value);
+            if (!input || !amount || amount < 1) {
+                showToast('❌ Enter valid phone/account and amount', 'error');
+                return;
+            }
+            let customer = findCustomerByPhone(input);
+            if (!customer) customer = findCustomerByAccount(input);
             if (!customer) {
                 showToast('❌ Customer not found!', 'error');
                 return;
@@ -607,7 +663,6 @@
 
             const debt = getCustomerDebt(customer);
             let depositAmount = amount;
-
             if (debt > 0) {
                 const debtPayment = Math.min(debt, depositAmount);
                 transactions.push({
@@ -621,12 +676,12 @@
                     vehicle: 'N/A',
                     time: new Date().toLocaleTimeString(),
                     litres: 0,
-                    status: 'approved'
+                    status: 'approved',
+                    created_at: new Date().toISOString()
                 });
                 depositAmount -= debtPayment;
                 showToast(`💳 Debt of ${formatCurrency(debtPayment)} cleared`, 'info');
             }
-
             if (depositAmount > 0) {
                 customer.balance = (customer.balance || 0) + depositAmount;
             }
@@ -640,50 +695,48 @@
                 document.getElementById('depPhone').value = '';
                 document.getElementById('depAmount').value = '';
                 showToast(`💰 ${formatCurrency(amount)} deposited for ${customer.name}`, 'success');
-            } catch(e) {
+            } catch (e) {
                 showToast('❌ Deposit failed: ' + e.message, 'error');
             }
         }
 
         // ============================================================
-        // STAFF
+        // STAFF MANAGEMENT (Admin only)
         // ============================================================
         async function registerStaff() {
+            if (currentUser && currentUser.role !== 'admin') {
+                showToast('⛔ Only admin can manage staff', 'error');
+                return;
+            }
             const name = document.getElementById('staffName').value.trim();
             const phone = document.getElementById('staffPhone').value.trim();
-
             if (!name) {
                 showToast('❌ Enter staff name', 'error');
                 return;
             }
-
             if (staff.some(s => s.name.toLowerCase() === name.toLowerCase())) {
                 showToast('❌ Staff already exists', 'error');
                 return;
             }
-
             const newStaff = { id: 'ST-' + String(staff.length + 1).padStart(3, '0'), name, phone };
-
             try {
-                if (useSupabase) {
-                    await supabaseQuery('staff', 'POST', newStaff);
-                }
+                if (useSupabase) await supabaseQuery('staff', 'POST', newStaff);
                 staff.push(newStaff);
                 saveAll();
                 render();
                 document.getElementById('staffName').value = '';
                 document.getElementById('staffPhone').value = '';
                 showToast(`✅ ${name} added to staff`, 'success');
-            } catch(e) {
+            } catch (e) {
                 showToast('❌ Failed: ' + e.message, 'error');
             }
         }
 
         function renderStaffList() {
+            if (currentUser && currentUser.role !== 'admin') return;
             const container = document.getElementById('staffList');
             if (!container) return;
-            container.innerHTML = staff.length === 0 ?
-                '<div style="color:#a0aec0;padding:10px;">No staff</div>' :
+            container.innerHTML = staff.length === 0 ? '<div style="color:#a0aec0;padding:10px;">No staff</div>' :
                 staff.map(s => `
                     <div style="padding:6px 12px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;">
                         <span><strong>${s.name}</strong> ${s.phone ? '📱 '+s.phone : ''}</span>
@@ -693,6 +746,10 @@
         }
 
         function deleteStaff(id) {
+            if (currentUser && currentUser.role !== 'admin') {
+                showToast('⛔ Only admin can delete staff', 'error');
+                return;
+            }
             if (!confirm('Remove this staff member?')) return;
             staff = staff.filter(s => s.id !== id);
             saveAll();
@@ -713,7 +770,7 @@
         }
 
         // ============================================================
-        // FUEL PRICES
+        // FUEL PRICES (Admin only)
         // ============================================================
         function calculateFuelPrice() {
             const fuel = document.getElementById('fuelType')?.value;
@@ -736,11 +793,14 @@
         }
 
         async function updateFuelPrices() {
+            if (currentUser && currentUser.role !== 'admin') {
+                showToast('⛔ Only admin can update prices', 'error');
+                return;
+            }
             const petrol = parseInt(document.getElementById('pricePetrol').value);
             const diesel = parseInt(document.getElementById('priceDiesel').value);
             const kerosene = parseInt(document.getElementById('priceKerosene').value);
             const discount = parseInt(document.getElementById('priceDiscount').value);
-
             if (!petrol || !diesel || !kerosene || !discount) {
                 showToast('❌ Enter valid prices', 'error');
                 return;
@@ -751,7 +811,6 @@
             fuelPrices.diesel = diesel;
             fuelPrices.kerosene = kerosene;
             fuelPrices.discount = discount;
-
             priceHistory.push({
                 date: new Date().toISOString(),
                 old: oldPrices,
@@ -761,14 +820,12 @@
             if (priceHistory.length > 50) priceHistory = priceHistory.slice(-50);
 
             try {
-                if (useSupabase) {
-                    await supabaseQuery('fuel_prices', 'POST', fuelPrices);
-                }
+                if (useSupabase) await supabaseQuery('fuel_prices', 'POST', fuelPrices);
                 saveAll();
                 render();
                 showToast('✅ Prices updated!', 'success');
                 loadFuelPrices();
-            } catch(e) {
+            } catch (e) {
                 showToast('❌ Failed: ' + e.message, 'error');
             }
         }
@@ -785,8 +842,7 @@
 
             const historyDiv = document.getElementById('priceHistory');
             if (!historyDiv) return;
-            historyDiv.innerHTML = priceHistory.length === 0 ?
-                '<div style="color:#a0aec0;padding:10px;">No history</div>' :
+            historyDiv.innerHTML = priceHistory.length === 0 ? '<div style="color:#a0aec0;padding:10px;">No history</div>' :
                 priceHistory.slice(-10).reverse().map(entry => `
                     <div style="padding:4px 8px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;font-size:13px;">
                         <span>${new Date(entry.date).toLocaleDateString()}</span>
@@ -797,25 +853,29 @@
         }
 
         // ============================================================
-        // FUEL SALE - AUTO SELECT CUSTOMER
+        // FUEL SALE
         // ============================================================
         function autoSelectCustomer() {
-            const phone = document.getElementById('fuelPhone')?.value?.replace(/\s/g, '') || '';
+            const input = document.getElementById('fuelPhone')?.value?.trim() || '';
             const infoDiv = document.getElementById('fuelCustomerInfo');
             const balanceDiv = document.getElementById('balanceCheckDisplay');
             const creditFlow = document.getElementById('creditFlowBox');
             const debtWarn = document.getElementById('activeDebtWarning');
+            const qrDiv = document.getElementById('customerQR');
 
-            if (!phone) {
+            if (!input) {
                 if (infoDiv) infoDiv.innerHTML = '';
                 if (balanceDiv) balanceDiv.style.display = 'none';
                 if (creditFlow) creditFlow.style.display = 'none';
                 if (debtWarn) debtWarn.style.display = 'none';
+                if (qrDiv) qrDiv.innerHTML = '';
                 fuelTxState.customer = null;
                 return;
             }
 
-            const customer = findCustomerByPhone(phone);
+            let customer = findCustomerByPhone(input);
+            if (!customer) customer = findCustomerByAccount(input);
+
             if (customer) {
                 fuelTxState.customer = customer;
                 const debt = getCustomerDebt(customer);
@@ -823,9 +883,21 @@
                     infoDiv.innerHTML = `
                         <div class="customer-selected">
                             <div class="name">✅ ${customer.name}</div>
-                            <div class="details">📱 ${customer.phone} | 🚗 ${customer.vehicles?.join(', ') || 'None'} | 💰 ${formatCurrency(customer.balance || 0)} | 💳 Debt: ${debt > 0 ? formatCurrency(debt) : 'UGX 0'}</div>
+                            <div class="details">📱 ${customer.phone} | 🆔 ${customer.accountNumber} | 🚗 ${customer.vehicles?.join(', ') || 'None'} | 💰 ${formatCurrency(customer.balance || 0)} | 💳 Debt: ${debt > 0 ? formatCurrency(debt) : 'UGX 0'}</div>
                         </div>
                     `;
+                    const qrContainer = document.getElementById('customerQR');
+                    if (qrContainer && typeof QRCode !== 'undefined') {
+                        qrContainer.innerHTML = '';
+                        new QRCode(qrContainer, {
+                            text: `ACCT:${customer.accountNumber}|NAME:${customer.name}|PHONE:${customer.phone}`,
+                            width: 120,
+                            height: 120,
+                            colorDark: "#1a202c",
+                            colorLight: "#ffffff",
+                            correctLevel: QRCode.CorrectLevel.H
+                        });
+                    }
                 }
                 if (balanceDiv) {
                     balanceDiv.style.display = 'block';
@@ -833,12 +905,8 @@
                     document.getElementById('customerDebtDisplay').textContent = formatCurrency(debt);
                 }
                 if (debtWarn) {
-                    if (debt > 0) {
-                        debtWarn.style.display = 'block';
-                        document.getElementById('debtWarningAmount').textContent = formatCurrency(debt);
-                    } else {
-                        debtWarn.style.display = 'none';
-                    }
+                    if (debt > 0) { debtWarn.style.display = 'block';
+                        document.getElementById('debtWarningAmount').textContent = formatCurrency(debt); } else debtWarn.style.display = 'none';
                 }
                 if (creditFlow) creditFlow.style.display = 'none';
             } else {
@@ -846,21 +914,18 @@
                 if (balanceDiv) balanceDiv.style.display = 'none';
                 if (creditFlow) creditFlow.style.display = 'none';
                 if (debtWarn) debtWarn.style.display = 'none';
+                if (qrDiv) qrDiv.innerHTML = '';
                 fuelTxState.customer = null;
             }
         }
 
-        // ============================================================
-        // FUEL SALE - CHECK BALANCE
-        // ============================================================
         function checkBalanceAndProceed() {
             const attendantId = document.getElementById('attendantSelect')?.value;
             const shift = document.getElementById('shiftSelect')?.value;
-
             if (!attendantId) { showToast('Select an attendant!', 'error'); return; }
             const attendant = staff.find(s => s.id === attendantId);
             if (!attendant) { showToast('Attendant not found!', 'error'); return; }
-            if (!fuelTxState.customer) { showToast('Enter a valid customer phone!', 'error'); return; }
+            if (!fuelTxState.customer) { showToast('Enter a valid customer phone or account number!', 'error'); return; }
 
             const customer = fuelTxState.customer;
             const vehicle = document.getElementById('fuelVehicle')?.value?.toUpperCase().trim() || '';
@@ -875,10 +940,11 @@
             const discount = fuelPrices.discount || 30;
             const effective = price - discount;
 
-            let finalAmount = amount, finalLitres = litres;
-            if (litres > 0 && amount === 0) { finalAmount = litres * effective; finalLitres = litres; }
-            else if (amount > 0 && litres === 0) { finalLitres = amount / effective; finalAmount = amount; }
-            else if (litres === 0 && amount === 0) { showToast('Enter litres OR amount!', 'error'); return; }
+            let finalAmount = amount,
+                finalLitres = litres;
+            if (litres > 0 && amount === 0) { finalAmount = litres * effective;
+                finalLitres = litres; } else if (amount > 0 && litres === 0) { finalLitres = amount / effective;
+                finalAmount = amount; } else if (litres === 0 && amount === 0) { showToast('Enter litres OR amount!', 'error'); return; }
 
             finalLitres = Math.round(finalLitres * 10) / 10;
             finalAmount = Math.round(finalAmount);
@@ -900,21 +966,52 @@
                 return;
             }
 
-            if ((customer.balance || 0) >= finalAmount) {
-                proceedWithFuel('cash');
+            openPINModal();
+        }
+
+        // ============================================================
+        // PIN MODAL
+        // ============================================================
+        function openPINModal() {
+            document.getElementById('pinInput').value = '';
+            document.getElementById('pinMsg').className = 'msg';
+            document.getElementById('pinMsg').textContent = '';
+            openModal('pinModal');
+        }
+
+        function closePINModal() {
+            closeModal('pinModal');
+            pinVerified = false;
+        }
+
+        function verifyPIN() {
+            const entered = document.getElementById('pinInput').value.trim();
+            const customer = fuelTxState.customer;
+            if (!customer) { showToast('No customer selected', 'error'); return; }
+            if (entered === customer.pin) {
+                pinVerified = true;
+                closePINModal();
+                if ((customer.balance || 0) >= fuelTxState.amount) {
+                    proceedWithFuel('cash');
+                } else {
+                    const shortfall = fuelTxState.amount - (customer.balance || 0);
+                    fuelTxState.shortfall = shortfall;
+                    document.getElementById('shortfallAmount').textContent = formatCurrency(shortfall);
+                    document.getElementById('balanceShortfall').textContent = formatCurrency(customer.balance || 0);
+                    document.getElementById('neededShortfall').textContent = formatCurrency(fuelTxState.amount);
+                    document.getElementById('creditFlowBox').style.display = 'block';
+                    showToast('⚠️ Shortfall: ' + formatCurrency(shortfall), 'warning');
+                }
             } else {
-                const shortfall = finalAmount - (customer.balance || 0);
-                fuelTxState.shortfall = shortfall;
-                document.getElementById('shortfallAmount').textContent = formatCurrency(shortfall);
-                document.getElementById('balanceShortfall').textContent = formatCurrency(customer.balance || 0);
-                document.getElementById('neededShortfall').textContent = formatCurrency(finalAmount);
-                document.getElementById('creditFlowBox').style.display = 'block';
-                showToast('⚠️ Shortfall: ' + formatCurrency(shortfall), 'warning');
+                document.getElementById('pinMsg').className = 'msg error';
+                document.getElementById('pinMsg').textContent = '❌ Invalid PIN! Try again.';
+                document.getElementById('pinInput').value = '';
+                document.getElementById('pinInput').focus();
             }
         }
 
         // ============================================================
-        // FUEL SALE - TOP UP
+        // TOP UP & CREDIT
         // ============================================================
         function topUpForFuel() {
             if (!fuelTxState.customer) { showToast('No customer selected!', 'error'); return; }
@@ -945,9 +1042,6 @@
             render();
         }
 
-        // ============================================================
-        // FUEL SALE - CREDIT REQUEST
-        // ============================================================
         function requestCreditForFuel() {
             if (!fuelTxState.customer) { showToast('No customer selected!', 'error'); return; }
             const customer = fuelTxState.customer;
@@ -978,19 +1072,22 @@
             saveAll();
             render();
             showToast('📋 Credit request submitted!', 'info');
-            if (confirm('📋 Credit request created. Approve now?')) {
-                approveCreditRequest(request.id);
+            if (currentUser && currentUser.role === 'admin') {
+                if (confirm('📋 Credit request created. Approve now?')) {
+                    approveCreditRequest(request.id);
+                }
             } else {
-                showToast('📋 Pending. Go to Credit Requests tab.', 'info');
-                switchTab('creditrequests');
+                showToast('📋 Request sent to admin for approval.', 'info');
                 document.getElementById('creditFlowBox').style.display = 'none';
+                switchTab('fuel');
             }
         }
 
         // ============================================================
-        // CREDIT REQUESTS
+        // CREDIT REQUESTS (Admin only)
         // ============================================================
         function renderCreditRequests() {
+            if (currentUser && currentUser.role !== 'admin') return;
             const container = document.getElementById('creditRequestsList');
             if (!container) return;
             const pendingReqs = getPendingCreditRequests();
@@ -1023,6 +1120,7 @@
         }
 
         async function approveCreditRequest(requestId) {
+            if (currentUser && currentUser.role !== 'admin') { showToast('⛔ Only admin can approve', 'error'); return; }
             const request = creditRequests.find(r => r.id === requestId);
             if (!request || request.status !== 'pending') { showToast('Request not found.', 'warning'); return; }
             const customer = customers.find(c => c.id === request.customerId);
@@ -1036,10 +1134,8 @@
                 render();
                 return;
             }
-
             request.status = 'approved';
             request.approvedAt = new Date().toISOString();
-
             const tx = {
                 id: transactionCounter++,
                 attendant: request.attendant,
@@ -1052,9 +1148,9 @@
                 time: new Date().toLocaleTimeString(),
                 litres: request.litres,
                 transaction_type: 'credit',
-                status: 'approved'
+                status: 'approved',
+                created_at: new Date().toISOString()
             };
-
             transactions.push(tx);
             saveAll();
             render();
@@ -1064,6 +1160,7 @@
         }
 
         function rejectCreditRequest(requestId) {
+            if (currentUser && currentUser.role !== 'admin') { showToast('⛔ Only admin can reject', 'error'); return; }
             const request = creditRequests.find(r => r.id === requestId);
             if (!request || request.status !== 'pending') { showToast('Request not found.', 'warning'); return; }
             request.status = 'rejected';
@@ -1080,7 +1177,7 @@
         function proceedWithFuel(paymentType) {
             const customer = fuelTxState.customer;
             if (!customer) { showToast('No customer selected!', 'error'); return; }
-
+            pinVerified = false;
             const otp = generateOTP();
             currentOTP = otp;
             otpAttempts = 0;
@@ -1096,13 +1193,11 @@
                 transaction_type: paymentType,
                 status: 'approved'
             };
-
             document.getElementById('otpCodeDisplay').textContent = otp;
             document.getElementById('otpInput').value = '';
             document.getElementById('otpInput').disabled = false;
             document.getElementById('otpMsg').className = 'msg';
             document.getElementById('otpMsg').textContent = '';
-
             let seconds = 300;
             if (otpInterval) clearInterval(otpInterval);
             otpInterval = setInterval(function() {
@@ -1110,24 +1205,16 @@
                 const secs = seconds % 60;
                 document.getElementById('otpTimer').textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
                 seconds--;
-                if (seconds < 0) {
-                    clearInterval(otpInterval);
+                if (seconds < 0) { clearInterval(otpInterval);
                     document.getElementById('otpTimer').textContent = 'Expired';
                     document.getElementById('otpMsg').className = 'msg error';
-                    document.getElementById('otpMsg').textContent = '⏰ OTP expired!';
-                }
+                    document.getElementById('otpMsg').textContent = '⏰ OTP expired!'; }
             }, 1000);
-
-            pending.push({
-                customer: customer.name,
-                amount: fuelTxState.amount,
-                pump: 'Pump ' + fuelTxState.pump,
-                vehicle: fuelTxState.vehicle,
-                attendant: fuelTxState.attendant,
-                shift: fuelTxState.shift,
-                type: paymentType
-            });
-
+            const waMessage = `🧾 YY PARTSHAN FUELS - OTP Verification\n\nYour OTP is: ${otp}\nAmount: ${formatCurrency(fuelTxState.amount)}\nFuel: ${getFuelName(fuelTxState.fuel)}\nVehicle: ${fuelTxState.vehicle}\n\nValid for 5 minutes.`;
+            const waLink = `https://wa.me/256${customer.phone}?text=${encodeURIComponent(waMessage)}`;
+            document.getElementById('waLinkDisplay').textContent = waLink;
+            document.getElementById('waMessagePreview').textContent = waMessage;
+            pending.push({ customer: customer.name, amount: fuelTxState.amount, pump: 'Pump ' + fuelTxState.pump, vehicle: fuelTxState.vehicle, attendant: fuelTxState.attendant, shift: fuelTxState.shift, type: paymentType });
             document.getElementById('creditFlowBox').style.display = 'none';
             openModal('otpModal');
             showToast('📱 OTP generated. Send to customer.', 'info');
@@ -1137,18 +1224,13 @@
         function verifyOTP() {
             const entered = document.getElementById('otpInput').value;
             if (!currentTransaction) { showToast('No active transaction!', 'error'); return; }
-
             if (entered === currentOTP) {
                 const tx = currentTransaction;
                 const customer = tx.customer;
-
                 if (tx.transaction_type === 'credit') {
                     showToast('📋 Credit fuel dispensed!', 'info');
                 } else {
-                    if ((customer.balance || 0) < tx.amount) {
-                        showToast('❌ Insufficient balance!', 'error');
-                        return;
-                    }
+                    if ((customer.balance || 0) < tx.amount) { showToast('❌ Insufficient balance!', 'error'); return; }
                     customer.balance -= tx.amount;
                     transactions.push({
                         id: transactionCounter++,
@@ -1162,10 +1244,10 @@
                         time: new Date().toLocaleTimeString(),
                         litres: tx.litres,
                         transaction_type: 'cash',
-                        status: 'approved'
+                        status: 'approved',
+                        created_at: new Date().toISOString()
                     });
                 }
-
                 pending = pending.filter(p => p.customer !== customer.name);
                 saveAll();
                 closeOTPModal();
@@ -1207,10 +1289,8 @@
                 const secs = seconds % 60;
                 document.getElementById('otpTimer').textContent = mins + ':' + (secs < 10 ? '0' : '') + secs;
                 seconds--;
-                if (seconds < 0) {
-                    clearInterval(otpInterval);
-                    document.getElementById('otpTimer').textContent = 'Expired';
-                }
+                if (seconds < 0) { clearInterval(otpInterval);
+                    document.getElementById('otpTimer').textContent = 'Expired'; }
             }, 1000);
             showToast('📤 New OTP sent.', 'info');
         }
@@ -1253,11 +1333,10 @@
             const time = now.toLocaleTimeString();
             const typeLabel = tx.transaction_type === 'credit' ? '📋 CREDIT' : '💰 CASH';
             const debt = getCustomerDebt(customer);
-
-            document.getElementById('receiptContent').innerHTML = `
+            const receiptContent = document.getElementById('receiptContent');
+            receiptContent.innerHTML = `
                 <div style="text-align:center;font-weight:700;font-size:18px;">⛽ YY PARTSHAN FUELS</div>
                 <div style="text-align:center;font-size:12px;color:#718096;">Nabyeewanga, Masaka Road</div>
-                <div style="text-align:center;font-size:12px;color:#718096;">📞 0700 123 456</div>
                 <div class="divider"></div>
                 <div class="line"><span>Receipt #</span><span>${'RCT-' + Date.now().toString(36).toUpperCase()}</span></div>
                 <div class="line"><span>Date</span><span>${date}</span></div>
@@ -1267,6 +1346,7 @@
                 <div class="line"><span>Attendant</span><span>${tx.attendant || 'N/A'}</span></div>
                 <div class="line"><span>Shift</span><span>${tx.shift || 'N/A'}</span></div>
                 <div class="line"><span>Customer</span><span>${customer.name} (${customer.phone})</span></div>
+                <div class="line"><span>Account</span><span>${customer.accountNumber}</span></div>
                 <div class="line"><span>Vehicle</span><span>${tx.vehicle}</span></div>
                 <div class="line"><span>Fuel</span><span>${getFuelName(tx.fuel)}</span></div>
                 <div class="line"><span>Pump</span><span>${tx.pump}</span></div>
@@ -1281,46 +1361,60 @@
                      <div class="line" style="font-weight:700;color:#28a745;"><span>Balance After</span><span>${formatCurrency(customer.balance || 0)}</span></div>`
                 }
                 <div class="divider"></div>
-                <div style="text-align:center;font-size:12px;color:#718096;">✅ Approved · ${time}<br>Thank you for choosing YY PARTSHAN FUELS! 🚗</div>
+                <div style="text-align:center;font-size:12px;color:#718096;">✅ Approved · ${time}<br>Thank you for choosing YY PARTSHAN FUELS!</div>
+                <div id="receiptQRContainer" style="margin-top:10px; text-align:center;"></div>
             `;
+            const qrContainer = document.getElementById('receiptQRContainer');
+            if (qrContainer && typeof QRCode !== 'undefined') {
+                new QRCode(qrContainer, {
+                    text: `TXN:${tx.id}|AMT:${tx.amount}|CUST:${customer.name}`,
+                    width: 100,
+                    height: 100,
+                    colorDark: "#1a202c",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
             openModal('receiptModal');
         }
 
         function closeReceiptModal() { document.getElementById('receiptModal').classList.remove('show'); }
+
         function printReceipt() { showToast('🖨️ Receipt printed!', 'success'); }
 
         // ============================================================
-        // ADMIN - CUSTOMER MANAGEMENT
+        // ADMIN (Admin only)
         // ============================================================
         function renderAdminList() {
+            if (currentUser && currentUser.role !== 'admin') return;
             const listDiv = document.getElementById('adminCustomerList');
             if (!listDiv) return;
-            listDiv.innerHTML = customers.length === 0 ?
-                '<div style="color:#a0aec0;padding:20px;">No customers</div>' :
+            listDiv.innerHTML = customers.length === 0 ? '<div style="color:#a0aec0;padding:20px;">No customers</div>' :
                 customers.map(c => `
                     <div style="padding:8px 12px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">
-                        <span><strong>${c.name}</strong> (@${c.username}) 📱 ${c.phone} 💰 ${formatCurrency(c.balance || 0)} 💳 Debt: ${formatCurrency(getCustomerDebt(c))}</span>
+                        <span><strong>${c.name}</strong> (@${c.username}) | 🆔 ${c.accountNumber} | 📱 ${c.phone} | 💰 ${formatCurrency(c.balance || 0)} | 💳 Debt: ${formatCurrency(getCustomerDebt(c))}</span>
                         <button class="edit-btn" onclick="adminEditCustomer('${c.id}')">✏️ Edit</button>
                     </div>
                 `).join('');
         }
 
         function adminSearch() {
+            if (currentUser && currentUser.role !== 'admin') return;
             const search = document.getElementById('adminSearch')?.value?.trim() || '';
             const resultDiv = document.getElementById('adminResult');
             if (!resultDiv) return;
-            if (!search) { resultDiv.innerHTML = ''; document.getElementById('adminEditor').style.display = 'none'; return; }
-
-            const customer = customers.find(c => 
+            if (!search) { resultDiv.innerHTML = '';
+                document.getElementById('adminEditor').style.display = 'none'; return; }
+            const customer = customers.find(c =>
                 c.name?.toLowerCase().includes(search.toLowerCase()) ||
                 c.username?.toLowerCase() === search.toLowerCase() ||
-                c.phone === search
+                c.phone === search ||
+                c.accountNumber === search
             );
-
             if (customer) {
                 resultDiv.innerHTML = `
                     <div style="background:#c6f6d5;padding:12px;border-radius:8px;border:1px solid #9ae6b4;">
-                        ✅ Found: <strong>${customer.name}</strong> (@${customer.username}) | 📱 ${customer.phone} | 💰 ${formatCurrency(customer.balance || 0)} | 💳 Debt: ${formatCurrency(getCustomerDebt(customer))}
+                        ✅ Found: <strong>${customer.name}</strong> (@${customer.username}) | 🆔 ${customer.accountNumber} | 📱 ${customer.phone} | 💰 ${formatCurrency(customer.balance || 0)} | 💳 Debt: ${formatCurrency(getCustomerDebt(customer))}
                         <button class="edit-btn" onclick="adminEditCustomer('${customer.id}')">✏️ Edit</button>
                     </div>
                 `;
@@ -1330,6 +1424,7 @@
         }
 
         function adminEditCustomer(id) {
+            if (currentUser && currentUser.role !== 'admin') { showToast('⛔ Only admin can edit', 'error'); return; }
             const customer = customers.find(c => c.id === id);
             if (!customer) return;
             document.getElementById('adminEditId').value = customer.id;
@@ -1337,16 +1432,16 @@
             document.getElementById('adminEditUsername').value = customer.username;
             document.getElementById('adminEditPhone').value = customer.phone;
             document.getElementById('adminEditPassword').value = '';
-
+            document.getElementById('adminEditPIN').value = customer.pin || '';
             const vehDiv = document.getElementById('adminEditVehicles');
             vehDiv.innerHTML = (customer.vehicles || []).map(v => `
                 <span class="vehicle-tag">🚗 ${v} <span onclick="adminRemoveVehicle('${customer.id}', '${v}')" style="cursor:pointer;color:#dc3545;">✕</span></span>
             `).join('');
-
             document.getElementById('adminEditor').style.display = 'block';
         }
 
         function adminRemoveVehicle(id, plate) {
+            if (currentUser && currentUser.role !== 'admin') { showToast('⛔ Only admin can remove vehicle', 'error'); return; }
             const customer = customers.find(c => c.id === id);
             if (!customer) return;
             customer.vehicles = (customer.vehicles || []).filter(v => v !== plate);
@@ -1357,6 +1452,7 @@
         }
 
         function adminAddVehicle() {
+            if (currentUser && currentUser.role !== 'admin') { showToast('⛔ Only admin can add vehicle', 'error'); return; }
             const plate = document.getElementById('adminAddVehicle')?.value?.toUpperCase().trim();
             const customerId = document.getElementById('adminEditId').value;
             if (!plate) { showToast('Enter a vehicle plate.', 'error'); return; }
@@ -1373,260 +1469,151 @@
         }
 
         async function adminSaveCustomer() {
+            if (currentUser && currentUser.role !== 'admin') { showToast('⛔ Only admin can save changes', 'error'); return; }
             const customerId = document.getElementById('adminEditId').value;
             const name = document.getElementById('adminEditName').value.trim();
             const username = document.getElementById('adminEditUsername').value.trim().toLowerCase();
             const phone = document.getElementById('adminEditPhone').value.trim();
             const password = document.getElementById('adminEditPassword').value;
-
+            const pin = document.getElementById('adminEditPIN').value.trim();
             const customer = customers.find(c => c.id === customerId);
             if (!customer) return;
             if (!name || !username || !phone) { showToast('Name, username and phone required.', 'error'); return; }
-            if (customers.some(c => c.id !== customerId && (c.username === username || c.phone === phone))) {
-                showToast('Username or phone already used.', 'error');
-                return;
-            }
-
+            if (pin && (pin.length < 4 || pin.length > 6 || !/^\d+$/.test(pin))) { showToast('PIN must be 4-6 digits', 'error'); return; }
+            if (customers.some(c => c.id !== customerId && (c.username === username || c.phone === phone))) { showToast('Username or phone already used.', 'error'); return; }
             customer.name = name;
             customer.username = username;
             customer.phone = phone;
             if (password) customer.password = password;
-
+            if (pin) customer.pin = pin;
             try {
-                if (useSupabase) {
-                    await supabaseQuery('customers', 'PATCH', { name, username, phone, password: password || customer.password }, customer.id);
-                }
+                if (useSupabase) await supabaseQuery('customers', 'PATCH', { name, username, phone, password: password || customer.password, pin: pin || customer.pin }, customer.id);
                 saveAll();
                 render();
                 showToast('✅ Customer updated!', 'success');
                 adminEditCustomer(customerId);
-            } catch(e) {
-                showToast('❌ Update failed: ' + e.message, 'error');
-            }
+            } catch (e) { showToast('❌ Update failed: ' + e.message, 'error'); }
         }
 
         async function adminDeleteCustomer() {
+            if (currentUser && currentUser.role !== 'admin') { showToast('⛔ Only admin can delete', 'error'); return; }
             const customerId = document.getElementById('adminEditId').value;
             if (!confirm('Delete this customer?')) return;
             const customer = customers.find(c => c.id === customerId);
             if (!customer) return;
-
             try {
-                if (useSupabase) {
-                    await supabaseQuery('customers', 'DELETE', null, customer.id);
-                }
+                if (useSupabase) await supabaseQuery('customers', 'DELETE', null, customer.id);
                 customers = customers.filter(c => c.id !== customerId);
                 saveAll();
                 document.getElementById('adminEditor').style.display = 'none';
                 document.getElementById('adminResult').innerHTML = '';
                 render();
                 showToast('🗑️ Customer deleted.', 'warning');
-            } catch(e) {
-                showToast('❌ Delete failed: ' + e.message, 'error');
+            } catch (e) { showToast('❌ Delete failed: ' + e.message, 'error'); }
+        }
+
+        // ============================================================
+        // VEHICLE QR (Admin only)
+        // ============================================================
+        function renderVehicleQRs() {
+            if (currentUser && currentUser.role !== 'admin') return;
+            const container = document.getElementById('vehicleQRList');
+            if (!container) return;
+            if (customers.length === 0) {
+                container.innerHTML = '<div style="color:#a0aec0;padding:20px;text-align:center;">No customers registered yet.</div>';
+                return;
+            }
+            let html = '<div class="vehicle-qr-grid">';
+            customers.forEach(customer => {
+                const vehicles = customer.vehicles || [];
+                if (vehicles.length === 0) return;
+                vehicles.forEach(plate => {
+                    const baseUrl = window.location.href.split('?')[0];
+                    const url = baseUrl + `?vehicle=${encodeURIComponent(plate)}&customer=${encodeURIComponent(customer.accountNumber)}`;
+                    const qrId = `qr-${customer.id}-${plate.replace(/\s/g,'')}`;
+                    html += `
+                        <div class="vehicle-qr-card">
+                            <div class="plate">🚗 ${plate}</div>
+                            <div class="customer">${customer.name} (${customer.accountNumber})</div>
+                            <div class="qr" id="${qrId}"></div>
+                            <button class="btn btn-sm btn-download" onclick="downloadQR('${qrId}', '${plate}')">⬇️ Download QR</button>
+                        </div>
+                    `;
+                });
+            });
+            html += '</div>';
+            container.innerHTML = html;
+            customers.forEach(customer => {
+                const vehicles = customer.vehicles || [];
+                vehicles.forEach(plate => {
+                    const qrId = `qr-${customer.id}-${plate.replace(/\s/g,'')}`;
+                    const qrContainer = document.getElementById(qrId);
+                    if (qrContainer && typeof QRCode !== 'undefined') {
+                        const baseUrl = window.location.href.split('?')[0];
+                        const url = baseUrl + `?vehicle=${encodeURIComponent(plate)}&customer=${encodeURIComponent(customer.accountNumber)}`;
+                        try {
+                            new QRCode(qrContainer, {
+                                text: url,
+                                width: 120,
+                                height: 120,
+                                colorDark: "#1a202c",
+                                colorLight: "#ffffff",
+                                correctLevel: QRCode.CorrectLevel.H
+                            });
+                        } catch(e) { console.warn('QR error:', e);
+                            qrContainer.textContent = 'QR error'; }
+                    }
+                });
+            });
+        }
+
+        function downloadQR(qrId, plate) {
+            if (currentUser && currentUser.role !== 'admin') { showToast('⛔ Only admin can download QR', 'error'); return; }
+            const container = document.getElementById(qrId);
+            if (!container) { showToast('QR not found', 'error'); return; }
+            const canvas = container.querySelector('canvas');
+            if (!canvas) { showToast('QR not generated yet', 'error'); return; }
+            const link = document.createElement('a');
+            link.download = `YY_QR_${plate.replace(/\s/g,'_')}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('⬇️ QR downloaded', 'success');
+        }
+
+        // ============================================================
+        // URL PARAMETER HANDLING
+        // ============================================================
+        function handleURLParams() {
+            const params = new URLSearchParams(window.location.search);
+            const vehicle = params.get('vehicle');
+            const customerAcc = params.get('customer');
+            if (vehicle && customerAcc) {
+                const customer = findCustomerByAccount(customerAcc);
+                if (customer) {
+                    switchTab('fuel');
+                    document.getElementById('fuelVehicle').value = vehicle;
+                    document.getElementById('fuelPhone').value = customer.phone;
+                    autoSelectCustomer();
+                    showToast(`🚗 Vehicle ${vehicle} loaded for ${customer.name}`, 'info');
+                    const newUrl = window.location.href.split('?')[0];
+                    window.history.replaceState({}, document.title, newUrl);
+                } else {
+                    showToast('❌ Customer not found for this QR code.', 'error');
+                }
             }
         }
 
         // ============================================================
-        // BUILD TABS
-        // ============================================================
-        function buildTabs() {
-            document.getElementById('tabContent').innerHTML = `
-                <div id="tab-dashboard" class="tab-content active">
-                    <div class="panel">
-                        <h3>📋 Recent Transactions <span class="badge" id="transCount">0</span></h3>
-                        <div class="table-container">
-                            <table>
-                                <thead><tr><th>Time</th><th>Attendant</th><th>Shift</th><th>Customer</th><th>Vehicle</th><th>Fuel</th><th>Litres</th><th>Amount</th><th>Type</th><th>Status</th></tr></thead>
-                                <tbody id="transactionList"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="panel">
-                        <h3>👥 Customers <span class="badge" id="custCount">0</span></h3>
-                        <div class="table-container">
-                            <table>
-                                <thead><tr><th>Name</th><th>Phone</th><th>Vehicles</th><th>Balance</th><th>Debt</th></tr></thead>
-                                <tbody id="customerList"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="panel">
-                        <h3>⏳ Pending OTP Transactions <span class="badge" id="pendingCount">0</span></h3>
-                        <ul id="pendingList" style="list-style:none;padding:0;"></ul>
-                    </div>
-                </div>
-
-                <div id="tab-register" class="tab-content">
-                    <div class="panel">
-                        <h3>📝 Register New Customer</h3>
-                        <div class="form-row">
-                            <div class="form-group"><label>Full Name *</label><input id="regName" placeholder="e.g. John Doe"></div>
-                            <div class="form-group"><label>Username *</label><input id="regUsername" placeholder="e.g. johndoe"></div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group"><label>Phone *</label><input id="regPhone" placeholder="e.g. 0700123456"></div>
-                            <div class="form-group"><label>Password *</label><input id="regPassword" type="password" placeholder="********"></div>
-                        </div>
-                        <div class="form-group"><label>Vehicle Plate *</label><input id="regVehicle" placeholder="e.g. UAX 123X"></div>
-                        <button class="btn btn-success" onclick="registerCustomer()">✅ Register</button>
-                    </div>
-                </div>
-
-                <div id="tab-deposit" class="tab-content">
-                    <div class="panel">
-                        <h3>💰 Deposit / Top Up</h3>
-                        <div class="form-group"><label>Customer Phone</label><input id="depPhone" placeholder="e.g. 0700123456"></div>
-                        <div class="form-group"><label>Amount (UGX)</label><input id="depAmount" type="number" placeholder="Enter amount"></div>
-                        <button class="btn btn-success" onclick="processDeposit()">💰 Process Deposit</button>
-                    </div>
-                </div>
-
-                <div id="tab-staff" class="tab-content">
-                    <div class="panel">
-                        <h3>👥 Staff Management</h3>
-                        <div class="form-row">
-                            <div class="form-group"><label>Staff Name</label><input id="staffName" placeholder="e.g. Mary"></div>
-                            <div class="form-group"><label>Phone (optional)</label><input id="staffPhone" placeholder="e.g. 0700123456"></div>
-                        </div>
-                        <button class="btn btn-primary" onclick="registerStaff()">➕ Add Staff</button>
-                        <div style="margin-top:16px;" id="staffList"></div>
-                    </div>
-                </div>
-
-                <div id="tab-fuel" class="tab-content">
-                    <div class="panel">
-                        <h3>⛽ Sell Fuel</h3>
-                        <div class="form-group"><label>Customer Phone</label><input id="fuelPhone" placeholder="Enter phone" oninput="autoSelectCustomer()"></div>
-                        <div id="fuelCustomerInfo"></div>
-                        <div id="balanceCheckDisplay" style="display:none;margin-top:8px;background:#f7fafc;padding:10px;border-radius:8px;">
-                            <span>💰 Balance: <strong id="customerBalanceDisplay">UGX 0</strong> &nbsp;|&nbsp; 💳 Debt: <strong id="customerDebtDisplay">UGX 0</strong></span>
-                        </div>
-                        <div id="activeDebtWarning" style="display:none;background:#fed7d7;padding:10px;border-radius:8px;color:#9b2c2c;margin-top:8px;">
-                            ⚠️ Active Debt: <span id="debtWarningAmount">UGX 0</span>. Please clear debt before selling fuel.
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group"><label>Vehicle Plate</label><input id="fuelVehicle" placeholder="e.g. UAX 123X"></div>
-                            <div class="form-group"><label>Fuel Type</label>
-                                <select id="fuelType" onchange="calculateFuelPrice()">
-                                    <option value="petrol">⛽ Petrol</option>
-                                    <option value="diesel">⛽ Diesel</option>
-                                    <option value="kerosene">🔥 Kerosene</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group"><label>Pump</label>
-                                <select id="fuelPump">
-                                    <option value="1">Pump 1</option>
-                                    <option value="2">Pump 2</option>
-                                    <option value="3">Pump 3</option>
-                                    <option value="4">Pump 4</option>
-                                </select>
-                            </div>
-                            <div class="form-group"><label>Shift</label>
-                                <select id="shiftSelect">
-                                    <option value="Morning">Morning</option>
-                                    <option value="Afternoon">Afternoon</option>
-                                    <option value="Night">Night</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group"><label>Litres</label><input id="fuelLitres" type="number" step="0.1" placeholder="0.0" oninput="calculateFuelPrice()"></div>
-                            <div class="form-group"><label>Amount (UGX)</label><input id="fuelAmount" type="number" placeholder="0" oninput="calculateFuelPrice()"></div>
-                        </div>
-                        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;">
-                            <span class="price-display">💰 Price: <span id="currentPriceDisplay">UGX 5800/Ltr</span></span>
-                            <span class="price-display">🎯 Effective: <span id="effectivePriceDisplay">UGX 5770/Ltr</span></span>
-                        </div>
-                        <div class="form-group"><label>Attendant</label>
-                            <select id="attendantSelect"><option value="">-- Select --</option></select>
-                        </div>
-                        <button class="btn btn-primary" onclick="checkBalanceAndProceed()">⛽ Check & Proceed</button>
-                        <div id="creditFlowBox" class="credit-flow-box" style="display:none;margin-top:12px;">
-                            <div>⚠️ Insufficient Balance!</div>
-                            <div>Balance: <strong id="balanceShortfall">UGX 0</strong></div>
-                            <div>Needed: <strong id="neededShortfall">UGX 0</strong></div>
-                            <div class="shortfall">Shortfall: <span id="shortfallAmount">UGX 0</span></div>
-                            <div class="actions">
-                                <button class="btn btn-success" onclick="topUpForFuel()">💰 Top Up</button>
-                                <button class="btn btn-warning" onclick="requestCreditForFuel()">📋 Request Credit</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="tab-admin" class="tab-content">
-                    <div class="panel">
-                        <h3>⚙️ Admin – Customer Management</h3>
-                        <div class="form-group"><label>Search by Name, Username or Phone</label>
-                            <input id="adminSearch" placeholder="Type to search..." oninput="adminSearch()">
-                        </div>
-                        <div id="adminResult"></div>
-                        <div id="adminEditor" style="display:none;margin-top:16px;background:#f7fafc;padding:16px;border-radius:8px;border:1px solid #e2e8f0;">
-                            <h4>✏️ Edit Customer</h4>
-                            <input type="hidden" id="adminEditId">
-                            <div class="form-row">
-                                <div class="form-group"><label>Name</label><input id="adminEditName"></div>
-                                <div class="form-group"><label>Username</label><input id="adminEditUsername"></div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group"><label>Phone</label><input id="adminEditPhone"></div>
-                                <div class="form-group"><label>New Password (leave blank to keep)</label><input id="adminEditPassword" type="password" placeholder="********"></div>
-                            </div>
-                            <div class="form-group"><label>Vehicles</label>
-                                <div id="adminEditVehicles" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;"></div>
-                                <div style="display:flex;gap:6px;">
-                                    <input id="adminAddVehicle" placeholder="Add plate" style="flex:1;">
-                                    <button class="btn btn-sm btn-primary" onclick="adminAddVehicle()" style="width:auto;padding:6px 16px;">+</button>
-                                </div>
-                            </div>
-                            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
-                                <button class="btn btn-success" onclick="adminSaveCustomer()" style="flex:1;">💾 Save</button>
-                                <button class="btn btn-danger" onclick="adminDeleteCustomer()" style="flex:1;">🗑️ Delete</button>
-                            </div>
-                            <div id="adminEditMsg" class="msg"></div>
-                        </div>
-                        <div style="margin-top:20px;"><h4>All Customers</h4><div id="adminCustomerList"></div></div>
-                    </div>
-                </div>
-
-                <div id="tab-creditrequests" class="tab-content">
-                    <div class="panel">
-                        <h3>📋 Credit Requests <span class="badge" id="creditReqCount">0</span></h3>
-                        <div id="creditRequestsList"></div>
-                    </div>
-                </div>
-
-                <div id="tab-prices" class="tab-content">
-                    <div class="panel">
-                        <h3>💲 Fuel Prices</h3>
-                        <div class="form-row">
-                            <div class="form-group"><label>Petrol (UGX/Ltr)</label><input id="pricePetrol" type="number"></div>
-                            <div class="form-group"><label>Diesel (UGX/Ltr)</label><input id="priceDiesel" type="number"></div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group"><label>Kerosene (UGX/Ltr)</label><input id="priceKerosene" type="number"></div>
-                            <div class="form-group"><label>Discount (UGX/Ltr)</label><input id="priceDiscount" type="number"></div>
-                        </div>
-                        <button class="btn btn-primary" onclick="updateFuelPrices()">💾 Update Prices</button>
-                        <div style="margin-top:16px;"><h4>Price History</h4><div id="priceHistory"></div></div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // ============================================================
-        // RESET
+        // RESET (Admin only)
         // ============================================================
         function resetSystem() {
+            if (currentUser && currentUser.role !== 'admin') { showToast('⛔ Only admin can reset', 'error'); return; }
             if (!confirm('⚠️ Reset all data? This will delete everything!')) return;
             customers = [];
             staff = [];
             transactions = [];
             pending = [];
             creditRequests = [];
-            totalDeposits = 0;
             transactionCounter = 1;
             creditRequestCounter = 1;
             fuelPrices = { petrol: 5800, diesel: 5200, kerosene: 4800, discount: 30 };
@@ -1646,15 +1633,170 @@
         });
 
         // ============================================================
-        // INIT
+        // BUILD TABS (with password toggle for registration)
         // ============================================================
-        async function init() {
-            console.log('🚀 Starting YY PARTSHAN FUELS...');
-            buildTabs();
-            await loadData();
+        function buildTabs() {
+            document.getElementById('tabContent').innerHTML = `
+                <div id="tab-dashboard" class="tab-content active">
+                    <div class="panel"><h3>📋 Recent Transactions <span class="badge" id="transCount">0</span></h3><div class="table-container"><table><thead><tr><th>Time</th><th>Attendant</th><th>Shift</th><th>Customer</th><th>Vehicle</th><th>Fuel</th><th>Litres</th><th>Amount</th><th>Type</th><th>Status</th></tr></thead><tbody id="transactionList"></tbody></table></div></div>
+                    <div class="panel"><h3>👥 Customers <span class="badge" id="custCount">0</span></h3><div class="table-container"><table><thead><tr><th>Name</th><th>Account #</th><th>Phone</th><th>Vehicles</th><th>Balance</th><th>Debt</th></tr></thead><tbody id="customerList"></tbody></table></div></div>
+                    <div class="panel"><h3>⏳ Pending OTP Transactions <span class="badge" id="pendingCount">0</span></h3><ul id="pendingList" style="list-style:none;padding:0;"></ul></div>
+                </div>
+                <div id="tab-register" class="tab-content">
+                    <div class="panel"><h3>📝 Register New Customer</h3>
+                        <div class="form-row"><div class="form-group"><label>Full Name *</label><input id="regName" placeholder="e.g. John Doe"></div><div class="form-group"><label>Username *</label><input id="regUsername" placeholder="e.g. johndoe"></div></div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Phone *</label><input id="regPhone" placeholder="e.g. 0700123456"></div>
+                            <div class="form-group"><label>Vehicle Plate *</label><input id="regVehicle" placeholder="e.g. UAX 123X"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Password *</label>
+                                <div class="password-wrapper">
+                                    <input type="password" id="regPassword" placeholder="********" />
+                                    <button type="button" class="password-toggle" onclick="togglePassword('regPassword', this)">👁️</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>PIN (4-6 digits) *</label>
+                                <div class="password-wrapper">
+                                    <input type="password" id="regPIN" placeholder="e.g. 1234" maxlength="6" />
+                                    <button type="button" class="password-toggle" onclick="togglePassword('regPIN', this)">👁️</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" onclick="registerCustomer()">✅ Register</button>
+                        <div style="margin-top:8px;font-size:13px;color:#718096;">Account number will be auto-generated (6 digits).</div>
+                    </div>
+                </div>
+                <div id="tab-deposit" class="tab-content">
+                    <div class="panel"><h3>💰 Deposit / Top Up</h3>
+                        <div class="form-group"><label>Customer Phone or Account Number</label><input id="depPhone" placeholder="e.g. 0700123456 or 100001"></div>
+                        <div class="form-group"><label>Amount (UGX)</label><input id="depAmount" type="number" placeholder="Enter amount"></div>
+                        <button class="btn btn-success" onclick="processDeposit()">💰 Process Deposit</button>
+                    </div>
+                </div>
+                <div id="tab-staff" class="tab-content">
+                    <div class="panel"><h3>👥 Staff Management</h3>
+                        <div class="form-row"><div class="form-group"><label>Staff Name</label><input id="staffName" placeholder="e.g. Mary"></div><div class="form-group"><label>Phone (optional)</label><input id="staffPhone" placeholder="e.g. 0700123456"></div></div>
+                        <button class="btn btn-primary" onclick="registerStaff()">➕ Add Staff</button>
+                        <div style="margin-top:16px;" id="staffList"></div>
+                    </div>
+                </div>
+                <div id="tab-fuel" class="tab-content">
+                    <div class="panel"><h3>⛽ Sell Fuel</h3>
+                        <div class="form-group"><label>Customer Phone or Account Number</label><input id="fuelPhone" placeholder="Enter phone or account #" oninput="autoSelectCustomer()"></div>
+                        <div id="fuelCustomerInfo"></div><div id="customerQR" class="qr-code-display"></div>
+                        <div id="balanceCheckDisplay" style="display:none;margin-top:8px;background:#f7fafc;padding:10px;border-radius:8px;"><span>💰 Balance: <strong id="customerBalanceDisplay">UGX 0</strong> &nbsp;|&nbsp; 💳 Debt: <strong id="customerDebtDisplay">UGX 0</strong></span></div>
+                        <div id="activeDebtWarning" style="display:none;background:#fed7d7;padding:10px;border-radius:8px;color:#9b2c2c;margin-top:8px;">⚠️ Active Debt: <span id="debtWarningAmount">UGX 0</span>. Please clear debt before selling fuel.</div>
+                        <div class="form-row"><div class="form-group"><label>Vehicle Plate</label><input id="fuelVehicle" placeholder="e.g. UAX 123X"></div><div class="form-group"><label>Fuel Type</label><select id="fuelType" onchange="calculateFuelPrice()"><option value="petrol">⛽ Petrol</option><option value="diesel">⛽ Diesel</option><option value="kerosene">🔥 Kerosene</option></select></div></div>
+                        <div class="form-row"><div class="form-group"><label>Pump</label><select id="fuelPump"><option value="1">Pump 1</option><option value="2">Pump 2</option><option value="3">Pump 3</option><option value="4">Pump 4</option></select></div><div class="form-group"><label>Shift</label><select id="shiftSelect"><option value="Morning">Morning</option><option value="Afternoon">Afternoon</option><option value="Night">Night</option></select></div></div>
+                        <div class="form-row"><div class="form-group"><label>Litres</label><input id="fuelLitres" type="number" step="0.1" placeholder="0.0" oninput="calculateFuelPrice()"></div><div class="form-group"><label>Amount (UGX)</label><input id="fuelAmount" type="number" placeholder="0" oninput="calculateFuelPrice()"></div></div>
+                        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;"><span class="price-display">💰 Price: <span id="currentPriceDisplay">UGX 5800/Ltr</span></span><span class="price-display">🎯 Effective: <span id="effectivePriceDisplay">UGX 5770/Ltr</span></span></div>
+                        <div class="form-group"><label>Attendant</label><select id="attendantSelect"><option value="">-- Select --</option></select></div>
+                        <button class="btn btn-primary" onclick="checkBalanceAndProceed()">⛽ Check & Proceed</button>
+                        <div id="creditFlowBox" class="credit-flow-box" style="display:none;margin-top:12px;">
+                            <div>⚠️ Insufficient Balance!</div><div>Balance: <strong id="balanceShortfall">UGX 0</strong></div><div>Needed: <strong id="neededShortfall">UGX 0</strong></div>
+                            <div class="shortfall">Shortfall: <span id="shortfallAmount">UGX 0</span></div>
+                            <div class="actions"><button class="btn btn-success" onclick="topUpForFuel()">💰 Top Up</button><button class="btn btn-warning" onclick="requestCreditForFuel()">📋 Request Credit</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab-admin" class="tab-content">
+                    <div class="panel"><h3>⚙️ Admin – Customer Management</h3>
+                        <div class="form-group"><label>Search by Name, Username, Phone or Account #</label><input id="adminSearch" placeholder="Type to search..." oninput="adminSearch()"></div>
+                        <div id="adminResult"></div>
+                        <div id="adminEditor" style="display:none;margin-top:16px;background:#f7fafc;padding:16px;border-radius:8px;border:1px solid #e2e8f0;">
+                            <h4>✏️ Edit Customer</h4><input type="hidden" id="adminEditId">
+                            <div class="form-row"><div class="form-group"><label>Name</label><input id="adminEditName"></div><div class="form-group"><label>Username</label><input id="adminEditUsername"></div></div>
+                            <div class="form-row"><div class="form-group"><label>Phone</label><input id="adminEditPhone"></div><div class="form-group"><label>New Password (leave blank to keep)</label><input id="adminEditPassword" type="password" placeholder="********"></div></div>
+                            <div class="form-group"><label>PIN (4-6 digits)</label><input id="adminEditPIN" type="password" maxlength="6" placeholder="Enter new PIN"></div>
+                            <div class="form-group"><label>Vehicles</label><div id="adminEditVehicles" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;"></div><div style="display:flex;gap:6px;"><input id="adminAddVehicle" placeholder="Add plate" style="flex:1;"><button class="btn btn-sm btn-primary" onclick="adminAddVehicle()" style="width:auto;padding:6px 16px;">+</button></div></div>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;"><button class="btn btn-success" onclick="adminSaveCustomer()" style="flex:1;">💾 Save</button><button class="btn btn-danger" onclick="adminDeleteCustomer()" style="flex:1;">🗑️ Delete</button></div>
+                        </div>
+                        <div style="margin-top:20px;"><h4>All Customers</h4><div id="adminCustomerList"></div></div>
+                    </div>
+                </div>
+                <div id="tab-creditrequests" class="tab-content">
+                    <div class="panel"><h3>📋 Credit Requests <span class="badge" id="creditReqCount">0</span></h3><div id="creditRequestsList"></div></div>
+                </div>
+                <div id="tab-prices" class="tab-content">
+                    <div class="panel"><h3>💲 Fuel Prices</h3>
+                        <div class="form-row"><div class="form-group"><label>Petrol (UGX/Ltr)</label><input id="pricePetrol" type="number"></div><div class="form-group"><label>Diesel (UGX/Ltr)</label><input id="priceDiesel" type="number"></div></div>
+                        <div class="form-row"><div class="form-group"><label>Kerosene (UGX/Ltr)</label><input id="priceKerosene" type="number"></div><div class="form-group"><label>Discount (UGX/Ltr)</label><input id="priceDiscount" type="number"></div></div>
+                        <button class="btn btn-primary" onclick="updateFuelPrices()">💾 Update Prices</button>
+                        <div style="margin-top:16px;"><h4>Price History</h4><div id="priceHistory"></div></div>
+                    </div>
+                </div>
+                <div id="tab-vehicleqr" class="tab-content">
+                    <div class="panel">
+                        <h3>📱 Vehicle QR Codes</h3>
+                        <p>Scan these QR codes to quickly access the fuel sale page with the vehicle and customer pre‑filled.</p>
+                        <div id="vehicleQRList"></div>
+                    </div>
+                </div>
+            `;
         }
 
-        init();
+        // ============================================================
+        // INIT
+        // ============================================================
+        function init() {
+            console.log('🚀 YY PARTSHAN FUELS – Complete System');
+            console.log('🔗 Supabase URL:', SUPABASE_URL);
+            buildTabs();
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('mainApp').style.display = 'none';
+            loadLocalData();
+            // Force hide loading overlay after 2 seconds
+            setTimeout(function() {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+            }, 2000);
+        }
+
+        // Expose globals
+        window.login = login;
+        window.logout = logout;
+        window.switchTab = switchTab;
+        window.registerCustomer = registerCustomer;
+        window.processDeposit = processDeposit;
+        window.registerStaff = registerStaff;
+        window.deleteStaff = deleteStaff;
+        window.autoSelectCustomer = autoSelectCustomer;
+        window.checkBalanceAndProceed = checkBalanceAndProceed;
+        window.topUpForFuel = topUpForFuel;
+        window.completeTopup = completeTopup;
+        window.requestCreditForFuel = requestCreditForFuel;
+        window.approveCreditRequest = approveCreditRequest;
+        window.rejectCreditRequest = rejectCreditRequest;
+        window.verifyPIN = verifyPIN;
+        window.closePINModal = closePINModal;
+        window.verifyOTP = verifyOTP;
+        window.resendOTP = resendOTP;
+        window.closeOTPModal = closeOTPModal;
+        window.openWhatsAppLink = openWhatsAppLink;
+        window.copyWhatsAppLink = copyWhatsAppLink;
+        window.copyWhatsAppMessage = copyWhatsAppMessage;
+        window.closeReceiptModal = closeReceiptModal;
+        window.printReceipt = printReceipt;
+        window.adminSearch = adminSearch;
+        window.adminEditCustomer = adminEditCustomer;
+        window.adminRemoveVehicle = adminRemoveVehicle;
+        window.adminAddVehicle = adminAddVehicle;
+        window.adminSaveCustomer = adminSaveCustomer;
+        window.adminDeleteCustomer = adminDeleteCustomer;
+        window.downloadQR = downloadQR;
+        window.downloadSystemQR = downloadSystemQR;
+        window.syncAllData = syncAllData;
+        window.calculateFuelPrice = calculateFuelPrice;
+        window.updateFuelPrices = updateFuelPrices;
+        window.closeModal = closeModal;
+        window.resetSystem = resetSystem;
+        window.togglePassword = togglePassword;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            init();
+        });
     </script>
 </body>
 </html>
